@@ -1,4 +1,8 @@
 # Unreal Engine - VP Workflow Validation Framework
+##### Supported Versions
+UE4.27+: Supported: :white_check_mark:
+UE5.0+: Testing: :heavy_exclamation_mark:
+
 ## 1. Intro
 
 ## Contents
@@ -46,19 +50,25 @@
 ## 4. UI
 
 ### 4.1 Menu Bar
-The Main UI can be loaded from the the menu bar
+The Main UI can be loaded from the the menu item within the Netflix menu.
 
 ### 4.2 Validation Framework UI
 The main UI for manual interaction with the validation framework.
 
 ### 4.3 Workflow
-Drop down box which allows the user to select a specific workflow which we want to validate
+Drop down box which allows the user to select a specific workflow which we want to validate for.
+
+This filters the validations visible and runnable from the UI.
 
 ### 4.4 Level Validation
-Toggle to select all of the Level based validations for the selected workflow
+Toggle to select all of the Level based validations for the selected workflow.
+
+This filters the validations visible and runnable from the UI
 
 ### 4.5 Project Validation
 Toggle to select all of the Project based validations for the selected workflow
+
+This filters the validations visible and runnable from the UI
 
 ### 4.6 Refresh
 Refresh button acts as an overall reset/refresh of the UI.
@@ -98,7 +108,7 @@ Description of what applying the fix will do to the Level or Project.
 
 
 ## 5. Validations
-Validations can be implemented via Blueprints or by C++, they comprise a few key features which we outline below. 
+Validations can be implemented via Blueprints or by C++, they all inherit from a ValidationBase class, which provides a few key features which we outline below. 
 
 ### 5.1 Workflows
 Validations are tagged/associated with specific workflows. This allows us to filter validations and only execute the ones which are appropriate.
@@ -114,15 +124,59 @@ Currently there are several in-built workflows
  Custom workflows can be added with ease see [Adding New Workflows](#82-adding-new-workflows)
 
 ### 5.2 Scopes
+Validations can also be tagged/associated with a scope, this is another level of filtering to ensure we are running the correct set of validations.
+
+Validations can only be part of a **single** scope.
+
+There are 2 scopes [Level](#521-level) & [Project](#522-project)
 #### 5.2.1 Level
+Level Scope indicates that the validation will run on the currently open level, (including sublevels).
+
+Any fixes applied will be applied to the level.
+
+**NOTE:** Changes are not auto saved, a user will still need to save any changes made to the levels for them to persist.
+
 #### 5.2.2 Project
+Project Scope indicates that the validation will run on the current unreal project.
+
+These are cross level validations which often relate to the Project Settings themselves.
+
 ### 5.3 Validation
+Validations must all implement a check, blueprint validations override this function whilst c++ validations implement it directly.
+
+This is the function/logic which is run when the user requests a validation to be run.
+
 ### 5.4 ValidationStatus
+Validations all return a ValidationStatus, this comprises of user information regarding any issues which have been detected, as well as a status indicating the level of severity.
+
+There are 3 status's - [Success](#541-success), [Warning](#542-warning) & [Fail](#543-fail) 
+
 #### 5.4.1 Success
+Validations which pass indicate that no issues where detected and report a success
+<img src="/docs/images/success.png" alt="Fail Icon" width="50" height="50">
+
 #### 5.4.2 Warning
+Validations sometimes return warnings. There are some situations which may or may not be valid, however it is not possible to tell without knowledge of the production. These require the user to investigate and decide if this is indeed an issue or not for their production and workflow.
+<img src="/docs/images/warning-fill.png" alt="Fail Icon" width="50" height="50">
+
 #### 5.4.3 Fail
+Validations return a failure when something has been detected which is known to critically break the workflow. It is important to note that some of these issues may not be visible to the naked eye, and only appear much later in the production workflow.
+
+Users are encourage to either fix manually based on the description, or apply the automated fixes when applicable.
+<img src="/docs/images/failure-fill.png" alt="Fail Icon" width="50" height="50">
+
 ### 5.5 Fix
+Validations must all implement a fix, blueprint validations override this function whilst c++ validations implement it directly.
+
+This is the function/logic which is run when the user requests a validation fix the detected issues.
+
+This logic should apply any changes to the UObjects or UEProject as appropriate.
+
+Sometimes its not possible to fix this automatically, in which case
+the fix still needs implementing but this is as simple as returning a [ValidationFixStatus](#56-validationfixstatus) with status [ManualFix](#562-manualfix).
+
 ### 5.6 ValidationFixStatus
+Fix Status
 #### 5.6.1 Fixed
 #### 5.6.2 ManualFix
 #### 5.6.3 NotFixed
