@@ -42,8 +42,29 @@ UE5.0+: Testing: :heavy_exclamation_mark:
 8.2 [Adding New Workflows](#82-adding-new-workflows)
 
 ## 2. Installation
+The Validation Framework comes as a self contained plugin with no external dependencies aside from the Unreal Engine itself.
+
+The Plugin consists of a C++ set of validations, utilities, base classes and helpers.
+
+It also contains Content in the form of blueprints and other .uassets.
+
+The plugin can simply be added to the Unreal Project>Plugins folder as either a pre compiled binary or can be compiled from source code.
+
 ### 2.1 Binaries
+1. Download the relevant zip file for the given releases and unreal version.
+<INSERT LINK>
+2. Unzip the plugin & place the folder inside the UEProject>Plugins Folder within the Unreal Project
+<Insert Image>
+3. Open the unreal project in Unreal and from the plugins menu ensure that the plugin is loaded.
+
 ### 2.2 Source
+1. Clone the repository and either copy or link the <INSERT NAME OF FOLDER> into the UnrealProject>Plugins folder.
+
+2. Right Click The .uproject and Generate Solution <Check Name>
+
+3. Once the solution is generated open the solution and compile the project.
+
+4. Once compiled open the unreal project in unreal and from the plugins menu ensure that the plugin is loaded.
 
 ## 3. Quick Start
 
