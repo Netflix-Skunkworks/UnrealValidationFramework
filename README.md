@@ -1,6 +1,6 @@
 # Unreal Engine - VP Workflow Validation Framework
 ##### Supported Versions
-UE4.27+: Supported: :white_check_mark:
+UE4.27+: Supported: :white_check_mark:\
 UE5.0+: Testing: :heavy_exclamation_mark:
 
 ## 1. Intro
@@ -152,17 +152,17 @@ Validations all return a ValidationStatus, this comprises of user information re
 There are 3 status's - [Success](#541-success), [Warning](#542-warning) & [Fail](#543-fail) 
 
 #### 5.4.1 Success
-Validations which pass indicate that no issues where detected and report a success
+Validations which pass indicate that no issues where detected and report a success\
 <img src="/docs/images/success.png" alt="Fail Icon" width="50" height="50">
 
 #### 5.4.2 Warning
-Validations sometimes return warnings. There are some situations which may or may not be valid, however it is not possible to tell without knowledge of the production. These require the user to investigate and decide if this is indeed an issue or not for their production and workflow.
+Validations sometimes return warnings. There are some situations which may or may not be valid, however it is not possible to tell without knowledge of the production. These require the user to investigate and decide if this is indeed an issue or not for their production and workflow.\
 <img src="/docs/images/warning-fill.png" alt="Fail Icon" width="50" height="50">
 
 #### 5.4.3 Fail
 Validations return a failure when something has been detected which is known to critically break the workflow. It is important to note that some of these issues may not be visible to the naked eye, and only appear much later in the production workflow.
 
-Users are encourage to either fix manually based on the description, or apply the automated fixes when applicable.
+Users are encourage to either fix manually based on the description, or apply the automated fixes when applicable.\
 <img src="/docs/images/failure-fill.png" alt="Fail Icon" width="50" height="50">
 
 ### 5.5 Fix
