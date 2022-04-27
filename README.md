@@ -4,6 +4,8 @@ UE4.27+: Supported: :white_check_mark:\
 UE5.0+: Testing: :heavy_exclamation_mark:
 
 ## 1. Intro
+TODO TODO
+<img src="/docs/images/UI.png" alt="Validation UI">
 
 ## Contents
 1. [Intro](#1-intro)
@@ -44,7 +46,7 @@ UE5.0+: Testing: :heavy_exclamation_mark:
 ## 2. Installation
 The Validation Framework comes as a self contained plugin with no external dependencies aside from the Unreal Engine itself.
 
-The Plugin consists of a C++ set of validations, utilities, base classes and helpers.
+The plugin consists of a C++ set of validations, utilities, base classes and helpers.
 
 It also contains Content in the form of blueprints and other .uassets.
 
@@ -52,29 +54,30 @@ The plugin can simply be added to the Unreal Project>Plugins folder as either a 
 
 ### 2.1 Binaries
 1. Download the relevant zip file for the given releases and unreal version.
-<INSERT LINK>
-2. Unzip the plugin & place the folder inside the UEProject>Plugins Folder within the Unreal Project
+**TODO INSERT LINK**
+2. Unzip the plugin & place the folder inside the Plugins Folder within the Unreal Project
 <img src="/docs/images/plugin_folder.png" alt="Plugin Folder">
 
 3. Open the unreal project in Unreal and from the plugins menu ensure that the plugin is loaded.
 <img src="/docs/images/plugin_load.png" alt="Plugin Load">
 
 ### 2.2 Source
-1. Clone the repository and either copy or link the *ValidationFramework* into the UnrealProject>Plugins folder.
+1. Clone the repository and either copy or link the *ValidationFramework* Folder into the UnrealProject>Plugins folder.
 
-2. Right Click The .uproject and Generate Solution <Check Name>
+2. Right Click The .uproject and select **Generate Visual Studio project files**
 
 3. Once the solution is generated open the solution and compile the project.
 
 4. Once compiled open the unreal project in unreal and from the plugins menu ensure that the plugin is loaded.
 
 ## 3. Quick Start
-
+**TODO INSERT LINK TO QUICKSTART VIDEO/S**
 ## 4. UI
 The UI is built entirely via Blueprints as an EditorUtilityWidget.
 
-There is no logic here
-<img src="/docs/images/UI.png" alt="Validation UI">
+*ValidationFramework>Content>Blueprints>VP_ValidationFramework.uasset*
+
+The blueprint contains no specific logic in regards to the validations, all of the logic is available via API, and any logic in the Blueprint is related to updating the UI itself.
 
 ### 4.1 Menu Bar
 The Main UI can be loaded from the the menu item within the Netflix menu.
@@ -82,7 +85,9 @@ The Main UI can be loaded from the the menu item within the Netflix menu.
 <img src="/docs/images/menubar.png" alt="Validation Menu Bar">
 
 ### 4.2 Validation Framework UI
-The main UI for manual interaction with the validation framework.
+The main UI for manual user interaction with the validation framework.
+
+<img src="/docs/images/UI.png" alt="Validation UI">
 
 ### 4.3 Workflow
 Drop down box which allows the user to select a specific workflow which we want to validate for.
@@ -101,8 +106,8 @@ This filters the validations visible and runnable from the UI
 
 ### 4.6 Refresh
 Refresh button acts as an overall reset/refresh of the UI.
-This clears all the existing states of the validations to a clean state.
-As some validations are implemented via Blueprints, these may be registered after the UI has loaded. (We cant know about Blueprints until they compile unlike c++ which we know is compiled ahead of time)
+This clears and resets all the existing states of the validations.
+As some validations are implemented via Blueprints, these may be registered after the UI and engine has loaded. (We cant know about Blueprints until they compile unlike c++ which we know is compiled ahead of time)
 Refresh ensures any new or updated validations are all populated into the UI.
 
 ### 4.7 Run All Validations
@@ -118,7 +123,7 @@ The short hand name of the validation
 A detailed description of what the validation is going to check for and why.
 
 ### 4.11 Run
-Run buttons exist for each validation, this runs the validation checks for this specific validation.
+Run buttons exist for each validation, this runs the validation check for this specific validation.
 
 ### 4.12 ValidationStatus
 A simple graphical display of the validations result, this shows whether a validation was a Success, a Fail or has Warnings that the user should inspect further.
@@ -130,11 +135,10 @@ Descriptions often identify offending actors, objects and their incompatible set
 ### 4.14 Fix
 Fix buttons exist for each validation, this runs the validation fix, for the specific validation.
 
-Not all issues can be automatically fixed, however the user will be notified of this.
+Not all issues can be automatically fixed, however the user will be notified of this from the validation itself.
 
 ### 4.15 Fix Description
 Description of what applying the fix will do to the Level or Project.
-
 
 ## 5. Validations
 Validations can be implemented via Blueprints or by C++, they all inherit from a ValidationBase class, which provides a few key features which we outline below. 
@@ -201,15 +205,16 @@ This is the function/logic which is run when the user requests a validation fix 
 
 This logic should apply any changes to the UObjects or UEProject as appropriate.
 
-Sometimes its not possible to fix this automatically, in which case
+Sometimes its not possible to fix things automatically, in which case
 the fix still needs implementing but this is as simple as returning a [ValidationFixStatus](#56-validationfixstatus) with status [ManualFix](#562-manualfix).
 
 ### 5.6 ValidationFixStatus
 Fix Status's are returned from the execution of any fix logic. These carry both informative messages which can be relayed back to the user, along with an overall status related to the success.
 
 Status can be [Fixed](#561-fixed), [ManualFix](#562-manualfix) or [NotFixed](#563-notfixed)
+
 #### 5.6.1 Fixed
-The fix or fixes where applied successfully.
+The fix or fixes were applied successfully.
 
 #### 5.6.2 ManualFix
 There is no automated fix available or this requires more context relating to the production and requires a user to manually fix.
@@ -218,9 +223,10 @@ There is no automated fix available or this requires more context relating to th
 The fix was unable to be applied or failed and the issue still persists
 
 ## 6. Validation Project Settings
+***TODO TODO TODO***
 
 ## 7. CI/CD
-Whilst running validations via UI is advantages for users and during live operation in productions.
+Whilst running validations via UI is advantageous for users during prep and live operation in productions.
 
 It can be also useful to execute these validations as part of a larger pipeline as an automated step. This could be as part of an asset publish, or a CI/CD build pipeline etc.
 
@@ -245,10 +251,165 @@ UnrealProject>ValidationReports>NameOfLevel
 These are stored as both csv or json format so are easily consumed by other applications, or simply sent back as part of support requests to supervisors or technical help groups.
 <img src="/docs/images/reports.png" alt="Reports Folder">
 
-
-
 ## 8. Extending & Customizing
+The initial version of the validation framework aimed at providing a framework for virtual production workflows, along with a base set of validations mainly targeting ICVFX to ensure the integrity of the color pipeline and maintaining the image chain as a linear workflow.
+
+There will be many more validations which are needed in future as new issues and or standards are discovered/implemented.
+
+Many new workflows both within, and outside of virtual production field will emerge and teams, products and productions may also have their own set of standards for very bespoke workflows and applications.
+
+With this in mind we ensured that the framework can be extended with both new workflows and new validations by both technical artists and developers alike.
+
 ### 8.1 Adding New Validations
+Validations can be added either via C++ or via Blueprints.
+
+Whilst the validations can live anywhere within an unreal project it is recommended to keep them within a custom content plugin.
+
+This allows companies, teams and productions to store and transport their own validations between projects without tying them selves to a single Unreal Project or populating the validation framework with none generic workflows
+
 #### 8.1.1 Blueprints
+
+Not everyone is wants to or is able write c++, so we provide the ability to implement your own validations and fixes via blueprints.
+
+1. Create a new blueprint class from the right click menu in the content browser,
+as mentioned earlier these can live anywhere in the project, however it is recommended to keep them in a dedicated content plugin so they can be easily shared between projects
+<img src="/docs/images/blueprint_example/1_create_blueprint.png" alt="Create Blueprint">
+2. Select the **ValidationBase** from the All Classes section to act as the parent class
+<img src="/docs/images/blueprint_example/2_select_baseclass.png" alt="Base Class Select">
+3. Within the blueprint editor, select the class defaults and on the right we set the default values for the validation such as its name, a detailed description of the check and what it does, a detailed description of the fix and what it will do.
+Also set the workflows that this validation is applicable to, and the scope of the validation.
+<img src="/docs/images/blueprint_example/3_setconstructordefaults.png" alt="Set Defaults">
+4. There are then two functions which need to be overridden one called **Validation** and one called *Fix*. We need to implement both.
+<img src="/docs/images/blueprint_example/4_implementfunctions.png" alt="Implement Overrides">
+5. Within the **Validation** function we can implement whatever logic we need to determine whether a something is valid or not. We need to return a *ValidationResult* from the function, with the status and any messages that should be presented to the user in either the UI or the reports.
+<img src="/docs/images/blueprint_example/5_implement_validation.png" alt="Implement Validation">
+6. Similarly within the **Fix** function we can implement whatever logic we need to apply any fixes that can be done. We need to return a *ValidationFixResult* from the function which holds the status, and any messages we want to pass back to the user
+<img src="/docs/images/blueprint_example/6_implement_fix.png" alt="Implement Fix">
+7. With the blueprint finished, save and compile the blueprint before returning to the ValidationFramework UI. Select the workflow and scope, your new validation is applicable to and hit refresh. You will now see the new validation appear in the UI with the details supplied to the class defaults.
+<img src="/docs/images/blueprint_example/7_refreshUI.png" alt="Refresh UI">
+8. We can now hit run on this validation, which currently does not do anything but we can see is functioning as expected as the status in this case returns a Success and our message is displayed in the UI.
+<img src="/docs/images/blueprint_example/8_runvalidation.png" alt="Run Validation">
+
 #### 8.1.2 C++
+
+Sometimes the logic to run the validation or fix is to complex to be described in a blueprint, more over as the complexity of the validation and fix increases the messier or more complex the blueprint becomes.
+
+Often its just easier to implement a new validation in C++.
+
+1. Create a new class called *CustomValidation* which inherits from *UValidationBase*
+
+``` c++
+#pragma once
+
+#include "CoreMinimal.h"
+#include "ValidationBase.h"
+#include "CustomValidation.generated.h"
+
+/**
+* Example Validation We Want To Implement
+*/
+UCLASS()
+class VALIDATIONFRAMEWORK_API UCustomValidation final : public UValidationBase
+{
+	GENERATED_BODY()
+
+public:
+	UCustomValidation();
+	virtual FValidationResult Validation_Implementation() override;
+	
+	virtual FValidationFixResult Fix_Implementation() override;
+};
+```
+
+2. In the .cpp within the constructor we set the information we want to provide to the user such as name, description, fix description.
+
+We also set which workflows the validation is going to be valid for and what scope it should be used for.
+
+``` c++
+#include "CustomValidation.h"
+
+
+UCustomValidation::UCustomValidation()
+{
+	ValidationName = "Custom Validation Name";
+	ValidationDescription = "Useful Description Of What Im Checking For And Why";
+	FixDescription = "Useful Description Of What Im Going To Do To Fix It";
+	ValidationScope = EValidationScope::Project;
+	ValidationApplicableWorkflows = {
+		EValidationWorkflow::ICVFX
+	};
+}
+```
+
+3. We then need to implement the validation, here we implement our logic to detect the problem we are trying to check for. We return a *FValidationResult* which contains any information we want along with the overall status. 
+```c++
+FValidationResult UCustomValidation::Validation_Implementation()
+{
+    FValidationResult ValidationResult = FValidationResult(EValidationStatus::Pass, "");
+
+    // Insert logic to check for problems
+    //
+    FValidationResult.Result = EValidationStatus::Fail;
+    FValidationResult.Message = "I Deliberately Failed This Validation";
+	return ValidationResult;
+}
+```
+4. Finally implement any logic which can be done to fix the issue. Care and consideration should be taken to consider if a fix can be done safely and cover all eventualities.
+```c++
+FValidationFixResult UCustomValidation::Fix_Implementation()
+{
+    FValidationFixResult ValidationFixResult = FValidationFixResult();
+
+    // Insert logic to fix  problems
+    //
+    ValidationFixResult.Result = EValidationFixStatus::ManualFix;
+    ValidationFixResult.Message = "Needs manual fix we don't even know what we are checking for";
+    return ValidationFixResult;
+}
+```
+
 ### 8.2 Adding New Workflows
+There are many workflows in the world, especially within an engine which is as open and flexible as Unreal.
+
+With this in mind, users or teams may wish to extend the framework with their own workflows for their own uses.
+
+This is as simple as extending a single enum and recompiling the plugin.
+
+*ValidationFramework/Source/ValidationFramework/Public/ValidationCommon.h*
+
+```c++
+/**
+* An enum representing all of the available workflows which validations can belong too.
+* Simply extending this enum exposes new options in the workflow selection from the UI, as well as
+* allowing validations to register to this new workflow option
+*/
+UENUM(BlueprintType)
+enum class EValidationWorkflow : uint8
+{
+	ICVFX			UMETA(DisplayName = "ICVFX"),
+	VRScouting		UMETA(DisplayName = "VR Scouting"),
+	SimulCam		UMETA(DisplayName = "SimulCam"),
+	VAD			UMETA(DisplayName = "VAD")
+};
+```
+
+Adding an additional enum value such as **MyWorkflow** is as simple as
+
+```c++
+/**
+* An enum representing all of the available workflows which validations can belong too.
+* Simply extending this enum exposes new options in the workflow selection from the UI, as well as
+* allowing validations to register to this new workflow option
+*/
+UENUM(BlueprintType)
+enum class EValidationWorkflow : uint8
+{
+	ICVFX			UMETA(DisplayName = "ICVFX"),
+	VRScouting		UMETA(DisplayName = "VR Scouting"),
+	SimulCam		UMETA(DisplayName = "SimulCam"),
+	VAD			UMETA(DisplayName = "VAD")
+	MYWORKFLOW		UMETA(DisplayName = "MyWorkflow")
+};
+```
+
+After recompile this option will display in the workflow selection dialog, and will be available to associate validations with.
