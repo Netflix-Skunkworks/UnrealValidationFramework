@@ -25,7 +25,7 @@ TODO TODO
 4.9 [Name](#49-name)\
 4.10 [Description](#410-description)\
 4.11 [Run](#411-run)\
-4.12 [Validation Status](#412-validationstatus)\
+4.12 [Validation Status](#412-validation-status)\
 4.13 [Validation Message](#413-validation-message)\
 4.14 [Fix](#414-fix)\
 4.15 [Fix Description](#415-fix-description)
@@ -62,7 +62,7 @@ The plugin can simply be added to the Unreal Project>Plugins folder as either a 
 <img src="/docs/images/plugin_load.png" alt="Plugin Load">
 
 ### 2.2 Source
-1. Clone the repository and either copy or link the *ValidationFramework* Folder into the UnrealProject>Plugins folder.
+1. Clone the repository and either copy or symlink the *ValidationFramework* Folder into the UnrealProject>Plugins folder.
 
 2. Right Click The .uproject and select **Generate Visual Studio project files**
 
@@ -80,7 +80,7 @@ The UI is built entirely via Blueprints as an EditorUtilityWidget.
 The blueprint contains no specific logic in regards to the validations, all of the logic is available via API, and any logic in the Blueprint is related to updating the UI itself.
 
 ### 4.1 Menu Bar
-The Main UI can be loaded from the the menu item within the Netflix menu.
+The main UI can be loaded from the the menu item within the Netflix menu.
 
 <img src="/docs/images/menubar.png" alt="Validation Menu Bar">
 
@@ -90,7 +90,7 @@ The main UI for manual user interaction with the validation framework.
 <img src="/docs/images/UI.png" alt="Validation UI">
 
 ### 4.3 Workflow
-Drop down box which allows the user to select a specific workflow which we want to validate for.
+Drop down box which allows the user to select a specific workflow we want to run validations for.
 
 This filters the validations visible and runnable from the UI.
 
@@ -125,7 +125,7 @@ A detailed description of what the validation is going to check for and why.
 ### 4.11 Run
 Run buttons exist for each validation, this runs the validation check for this specific validation.
 
-### 4.12 ValidationStatus
+### 4.12 Validation Status
 A simple graphical display of the validations result, this shows whether a validation was a Success, a Fail or has Warnings that the user should inspect further.
 
 ### 4.13 Validation Message
@@ -237,14 +237,14 @@ It does provide the API building blocks for teams to integrate into their system
 ``` c++
 static bool GenerateValidationReport(const FString LevelPath, const EValidationWorkflow Workflow, const FString ReportPath="");
 ```
-Available as both blueprint node and c++ function, this api call allows the user or pipeline to specify a Level, a workflow, and an output path in which to generate validation reports which can then be consumed by applications outside of unreal engine. 
+Available as both blueprint node and c++ function, this api call allows the user or pipeline to specify a level, a workflow, and an output path in which to generate validation reports which can then be consumed by applications outside of unreal engine. 
 
-Validations of both [Project](#522-project) & [Level](#521-level) Scope are executed.s
+Validations of both [Project](#522-project) & [Level](#521-level) Scope are executed.
 
 ### 7.1 Reports
 Reports are generated both via the API call above, but also via the UI when [Run All Validations](#47-run-all-validations) is executed.
 
-This serializes the results which are often displayed in the UI into reports which are stored along side the project folder.
+This serializes the results which are often displayed in the UI into reports which are stored along side the project folder. (default, unless report path is specified via the API)
 
 UnrealProject>ValidationReports>NameOfLevel
 
@@ -265,11 +265,11 @@ Validations can be added either via C++ or via Blueprints.
 
 Whilst the validations can live anywhere within an unreal project it is recommended to keep them within a custom content plugin.
 
-This allows companies, teams and productions to store and transport their own validations between projects without tying them selves to a single Unreal Project or populating the validation framework with none generic workflows
+This allows companies, teams and productions to store and transport their own validations between projects without tying themselves to a single Unreal Project or populating the validation framework with none generic workflows
 
 #### 8.1.1 Blueprints
 
-Not everyone is wants to or is able write c++, so we provide the ability to implement your own validations and fixes via blueprints.
+Not everyone wants to or is able write c++, so we provide the ability to implement your own validations and fixes via blueprints.
 
 1. Create a new blueprint class from the right click menu in the content browser,
 as mentioned earlier these can live anywhere in the project, however it is recommended to keep them in a dedicated content plugin so they can be easily shared between projects
@@ -281,11 +281,11 @@ Also set the workflows that this validation is applicable to, and the scope of t
 <img src="/docs/images/blueprint_example/3_setconstructordefaults.png" alt="Set Defaults">
 4. There are then two functions which need to be overridden one called **Validation** and one called *Fix*. We need to implement both.
 <img src="/docs/images/blueprint_example/4_implementfunctions.png" alt="Implement Overrides">
-5. Within the **Validation** function we can implement whatever logic we need to determine whether a something is valid or not. We need to return a *ValidationResult* from the function, with the status and any messages that should be presented to the user in either the UI or the reports.
+5. Within the **Validation** function we can implement whatever logic we need to determine whether something is valid or not. We need to return a *ValidationResult* from the function, with the status and any messages that should be presented to the user in either the UI or the reports.
 <img src="/docs/images/blueprint_example/5_implement_validation.png" alt="Implement Validation">
 6. Similarly within the **Fix** function we can implement whatever logic we need to apply any fixes that can be done. We need to return a *ValidationFixResult* from the function which holds the status, and any messages we want to pass back to the user
 <img src="/docs/images/blueprint_example/6_implement_fix.png" alt="Implement Fix">
-7. With the blueprint finished, save and compile the blueprint before returning to the ValidationFramework UI. Select the workflow and scope, your new validation is applicable to and hit refresh. You will now see the new validation appear in the UI with the details supplied to the class defaults.
+7. With the blueprint finished, save and compile the blueprint before returning to the ValidationFramework UI. Select the workflow and scope your new validation is applicable to and hit refresh. You will now see the new validation appear in the UI with the details supplied to the class defaults.
 <img src="/docs/images/blueprint_example/7_refreshUI.png" alt="Refresh UI">
 8. We can now hit run on this validation, which currently does not do anything but we can see is functioning as expected as the status in this case returns a Success and our message is displayed in the UI.
 <img src="/docs/images/blueprint_example/8_runvalidation.png" alt="Run Validation">
