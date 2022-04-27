@@ -54,11 +54,13 @@ The plugin can simply be added to the Unreal Project>Plugins folder as either a 
 1. Download the relevant zip file for the given releases and unreal version.
 <INSERT LINK>
 2. Unzip the plugin & place the folder inside the UEProject>Plugins Folder within the Unreal Project
-<Insert Image>
+<img src="/docs/images/plugin_folder.png" alt="Plugin Folder">
+
 3. Open the unreal project in Unreal and from the plugins menu ensure that the plugin is loaded.
+<img src="/docs/images/plugin_load.png" alt="Plugin Load">
 
 ### 2.2 Source
-1. Clone the repository and either copy or link the <INSERT NAME OF FOLDER> into the UnrealProject>Plugins folder.
+1. Clone the repository and either copy or link the *ValidationFramework* into the UnrealProject>Plugins folder.
 
 2. Right Click The .uproject and Generate Solution <Check Name>
 
@@ -69,9 +71,15 @@ The plugin can simply be added to the Unreal Project>Plugins folder as either a 
 ## 3. Quick Start
 
 ## 4. UI
+The UI is built entirely via Blueprints as an EditorUtilityWidget.
+
+There is no logic here
+<img src="/docs/images/UI.png" alt="Validation UI">
 
 ### 4.1 Menu Bar
 The Main UI can be loaded from the the menu item within the Netflix menu.
+
+<img src="/docs/images/menubar.png" alt="Validation Menu Bar">
 
 ### 4.2 Validation Framework UI
 The main UI for manual interaction with the validation framework.
@@ -197,17 +205,46 @@ Sometimes its not possible to fix this automatically, in which case
 the fix still needs implementing but this is as simple as returning a [ValidationFixStatus](#56-validationfixstatus) with status [ManualFix](#562-manualfix).
 
 ### 5.6 ValidationFixStatus
-Fix Status
+Fix Status's are returned from the execution of any fix logic. These carry both informative messages which can be relayed back to the user, along with an overall status related to the success.
+
+Status can be [Fixed](#561-fixed), [ManualFix](#562-manualfix) or [NotFixed](#563-notfixed)
 #### 5.6.1 Fixed
+The fix or fixes where applied successfully.
+
 #### 5.6.2 ManualFix
+There is no automated fix available or this requires more context relating to the production and requires a user to manually fix.
+
 #### 5.6.3 NotFixed
+The fix was unable to be applied or failed and the issue still persists
 
 ## 6. Validation Project Settings
 
-
-
 ## 7. CI/CD
+Whilst running validations via UI is advantages for users and during live operation in productions.
+
+It can be also useful to execute these validations as part of a larger pipeline as an automated step. This could be as part of an asset publish, or a CI/CD build pipeline etc.
+
+Whilst this framework does not provide the entire pipeline and framework for establishing the CI/CD and asset pipelines themselves.
+
+It does provide the API building blocks for teams to integrate into their systems.
+
+``` c++
+static bool GenerateValidationReport(const FString LevelPath, const EValidationWorkflow Workflow, const FString ReportPath="");
+```
+Available as both blueprint node and c++ function, this api call allows the user or pipeline to specify a Level, a workflow, and an output path in which to generate validation reports which can then be consumed by applications outside of unreal engine. 
+
+Validations of both [Project](#522-project) & [Level](#521-level) Scope are executed.s
+
 ### 7.1 Reports
+Reports are generated both via the API call above, but also via the UI when [Run All Validations](#47-run-all-validations) is executed.
+
+This serializes the results which are often displayed in the UI into reports which are stored along side the project folder.
+
+UnrealProject>ValidationReports>NameOfLevel
+
+These are stored as both csv or json format so are easily consumed by other applications, or simply sent back as part of support requests to supervisors or technical help groups.
+<img src="/docs/images/reports.png" alt="Reports Folder">
+
 
 
 ## 8. Extending & Customizing
