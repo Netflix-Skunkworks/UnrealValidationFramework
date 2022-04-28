@@ -223,7 +223,31 @@ There is no automated fix available or this requires more context relating to th
 The fix was unable to be applied or failed and the issue still persists
 
 ## 6. Validation Project Settings
-***TODO TODO TODO***
+In order to keep the validations themselves flexible and reusable they sometimes need information about the overall workflow.
+
+For instance validations may want to know the frame rate for the production. 
+
+Rather than have individual validations for each possible frame rate, we store this value as a project setting from which the validations can then refer too.
+
+Should a different project have different requirements the validations then do not need to change project to project.
+
+### 6.1 Setting Up Project Settings
+
+1. Create a new blueprint class from the parent class **VFProjectBase**. Given these are project related settings, its recommended to keep this within the UnrealProject rather than a ContentPlugin. (Unless you use the same settings over and over again)
+<img src="/docs/images/project_settings_example/1_vfprojectsettingsbase.png" alt="Create Project Settings">
+
+2. Within the blueprint we set the default inherited values for the project frame rate and the OCIO Config we expect to be using.
+<img src="/docs/images/project_settings_example/2_vfprojectsettings_bp_defaults.png" alt="Project Settings Defaults">
+
+3. If you are extending the framework with custom validations as this is all based on blueprints its possible to add custom values to the VFProjectSettings blueprint.
+<img src="/docs/images/project_settings_example/2_vfprojectsettings_custom_values.png" alt="Create Project Settings">
+
+4. Once you are happy with the VFProjectSettings blueprint, compile and save, then these need to be set into the Unreal Project Settings
+<img src="/docs/images/project_settings_example/3_set_projectsettings.png" alt="Create Project Settings">
+
+5. With this set, within the validations we can now use the **GetValidationFrameworkProjectSettings** node to retrieve them. You can then either cast to the base type to access just the inherited values such as frame rate, or if you are building custom workflows you can cast to your custom settings class and retrieve your custom settings.
+<img src="/docs/images/project_settings_example/4_use_project_settings.png" alt="Create Project Settings">
+
 
 ## 7. CI/CD
 Whilst running validations via UI is advantageous for users during prep and live operation in productions.
