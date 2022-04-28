@@ -274,19 +274,26 @@ Not everyone wants to or is able write c++, so we provide the ability to impleme
 1. Create a new blueprint class from the right click menu in the content browser,
 as mentioned earlier these can live anywhere in the project, however it is recommended to keep them in a dedicated content plugin so they can be easily shared between projects
 <img src="/docs/images/blueprint_example/1_create_blueprint.png" alt="Create Blueprint">
+
 2. Select the **ValidationBase** from the All Classes section to act as the parent class
 <img src="/docs/images/blueprint_example/2_select_baseclass.png" alt="Base Class Select">
+
 3. Within the blueprint editor, select the class defaults and on the right we set the default values for the validation such as its name, a detailed description of the check and what it does, a detailed description of the fix and what it will do.
 Also set the workflows that this validation is applicable to, and the scope of the validation.
 <img src="/docs/images/blueprint_example/3_setconstructordefaults.png" alt="Set Defaults">
-4. There are then two functions which need to be overridden one called **Validation** and one called *Fix*. We need to implement both.
+
+4. There are then two functions which need to be overridden one called **Validation** and one called **Fix**. We need to implement both.
 <img src="/docs/images/blueprint_example/4_implementfunctions.png" alt="Implement Overrides">
+
 5. Within the **Validation** function we can implement whatever logic we need to determine whether something is valid or not. We need to return a *ValidationResult* from the function, with the status and any messages that should be presented to the user in either the UI or the reports.
 <img src="/docs/images/blueprint_example/5_implement_validation.png" alt="Implement Validation">
+
 6. Similarly within the **Fix** function we can implement whatever logic we need to apply any fixes that can be done. We need to return a *ValidationFixResult* from the function which holds the status, and any messages we want to pass back to the user
 <img src="/docs/images/blueprint_example/6_implement_fix.png" alt="Implement Fix">
+
 7. With the blueprint finished, save and compile the blueprint before returning to the ValidationFramework UI. Select the workflow and scope your new validation is applicable to and hit refresh. You will now see the new validation appear in the UI with the details supplied to the class defaults.
 <img src="/docs/images/blueprint_example/7_refreshUI.png" alt="Refresh UI">
+
 8. We can now hit run on this validation, which currently does not do anything but we can see is functioning as expected as the status in this case returns a Success and our message is displayed in the UI.
 <img src="/docs/images/blueprint_example/8_runvalidation.png" alt="Run Validation">
 
