@@ -4,8 +4,23 @@ UE4.27+: Supported: :white_check_mark:\
 UE5.0+: Testing: :heavy_exclamation_mark:
 
 ## 1. Intro
-TODO TODO
 <img src="/docs/images/UI.png" alt="Validation UI">
+The Validation Framework is designed as an extendible and customizable framework to host and manage automated validation checks and fixes which can identify and help fix problems within specific workflows.
+
+Initially focussing on virtual production workflows, and primarily ICVFX. The goal is to help teams catch and resolve common issues which cause problems with both the operation of a shoot, but also avoid issues with the final data from the production.
+
+The Virtual Production teams at Netflix and Epic Games have collaborated to assemble an initial set of the most common issues and challenges we see on a regular basis.
+
+Given some issues are not visible to the human eye, and with the pressure and complexity of operating on live production and virtual production stages it is very easy for human error to occur.
+
+Having a simple toolkit which can be used to run pre-flight checks rapidly acts as a safety net to the operators and production.
+
+With this in mind, the system can easily be extended to encompass custom workflows, custom validations and fixes, allowing teams to check their own custom steps.
+
+The Validation Framework is not solely for use on a stage, this can also be utilized during the prep and content build phases ensuring issues are handled before moving down the production pipeline ahead of time.
+
+The system can also be integrated into pipelines and additional tooling around CI/CD to generate validation reports.
+
 
 ## Contents
 1. [Intro](#1-intro)
