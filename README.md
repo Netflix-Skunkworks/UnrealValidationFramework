@@ -69,8 +69,9 @@ It also contains Content in the form of blueprints and other .uassets.
 The plugin can simply be added to the Unreal Project>Plugins folder as either a pre compiled binary or can be compiled from source code.
 
 ### 2.1 Binaries
-1. Download the relevant zip file for the given releases and unreal version.
-**TODO INSERT LINK**
+1. Download the relevant zip file for the given releases, unreal version and platform.
+[Releases](https://github.com/Netflix-Skunkworks/UnrealValidationFramework/releases)
+
 2. Unzip the plugin & place the folder inside the Plugins Folder within the Unreal Project
 <img src="/docs/images/plugin_folder.png" alt="Plugin Folder">
 
