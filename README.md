@@ -234,13 +234,13 @@ Should a different project have different requirements the validations then do n
 
 ### 6.1 Setting Up Project Settings
 
-1. Create a new blueprint class from the parent class **VFProjectBase**. Given these are project related settings, its recommended to keep this within the UnrealProject rather than a ContentPlugin. (Unless you use the same settings over and over again)
+1. Create a new blueprint class from the parent class **VFProjectSettingsBase**. Given these are project related settings, its recommended to keep this within the UnrealProject rather than a Content Plugin. (Unless you use the same settings over and over again)
 <img src="/docs/images/project_settings_example/1_vfprojectsettingsbase.png" alt="Create Project Settings">
 
 2. Within the blueprint we set the default inherited values for the project frame rate and the OCIO Config we expect to be using.
 <img src="/docs/images/project_settings_example/2_vfprojectsettings_bp_defaults.png" alt="Project Settings Defaults">
 
-3. If you are extending the framework with custom validations as this is all based on blueprints its possible to add custom values to the VFProjectSettings blueprint.
+3. If you are extending the framework with custom validations, as this is all based on blueprints its possible to add custom values to the VFProjectSettings blueprint.
 <img src="/docs/images/project_settings_example/2_vfprojectsettings_custom_values.png" alt="Create Project Settings">
 
 4. Once you are happy with the VFProjectSettings blueprint, compile and save, then these need to be set into the Unreal Project Settings
