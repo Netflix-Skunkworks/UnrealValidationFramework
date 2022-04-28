@@ -36,7 +36,8 @@ TODO TODO
 5.4 [Validation Status](#54-validationstatus)\
 5.5 [Fixes](#55-fix)\
 5.6 [Validation Fix Status](#56-validationfixstatus)
-6. [Validation Project Settings](#6-validation-project-settings)
+6. [Validation Project Settings](#6-validation-project-settings)\
+6.1 [Setting Up Project Settings](#61-setting-up-project-settings)
 7. [CI/CD](#7-cicd)\
 7.1 [Reports](#71-reports)
 8. [Extending & Customizing](#8-extending--customizing)\
