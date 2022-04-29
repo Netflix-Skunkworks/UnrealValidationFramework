@@ -5,21 +5,22 @@ UE5.0+: Testing: :heavy_exclamation_mark:
 
 ## 1. Intro
 <img src="/docs/images/UI.png" alt="Validation UI">
-The Validation Framework is designed as an extendible and customizable framework to host and manage automated validation checks and fixes which can identify and help fix problems within specific workflows.
+The Validation Framework is designed as an extendible and customizable framework to host and manage automated validation checks and fixes which can identify and help address problems within specific workflows.
 
-Initially focussing on virtual production workflows, and primarily ICVFX. The goal is to help teams catch and resolve common issues which cause problems with both the operation of a shoot, but also avoid issues with the final data from the production.
+Initially focused on virtual production workflows, and primarily ICVFX, the goal is to help production teams to catch and resolve common issues which can cause unexpected render results, data outputs and represent performance challenges when working with Unreal Engine.
 
-The Virtual Production teams at Netflix and Epic Games have collaborated to assemble an initial set of the most common issues and challenges we see on a regular basis.
+Given that some issues are not obvious and some might not even be visible to the human eye, and with the pressure and complexity of operating on live production and virtual production stages, it is very easy for human error to occur and oversee some of these important settings.
 
-Given some issues are not visible to the human eye, and with the pressure and complexity of operating on live production and virtual production stages it is very easy for human error to occur.
+Having a simple toolkit which can be used to run pre-flight checks, acts as a safety net to the operators and the production.
 
-Having a simple toolkit which can be used to run pre-flight checks rapidly acts as a safety net to the operators and production.
+With this in mind, the system can easily be extended to encompass custom workflows, adding custom validations and fixes, allowing teams to check their own custom steps.
 
-With this in mind, the system can easily be extended to encompass custom workflows, custom validations and fixes, allowing teams to check their own custom steps.
+The Validation Framework is not solely for use on a stage, it can also be utilized during the prep and content build phases, ensuring issues are handled before moving down the production pipeline ahead of time.
 
-The Validation Framework is not solely for use on a stage, this can also be utilized during the prep and content build phases ensuring issues are handled before moving down the production pipeline ahead of time.
+The tool is shipped with a set of the most common and required checks and fixes for a ICVFX production which cause challenges on a regular basis. This set comes as a result of a collaboration between the Virtual Production teams at Netflix and Epic Games and the collected knowledge and experience in ICVFX productions.
 
 The system can also be integrated into pipelines and additional tooling around CI/CD to generate validation reports.
+
 
 
 ## Contents
@@ -83,9 +84,9 @@ The plugin can simply be added to the Unreal Project>Plugins folder as either a 
 
 2. Right Click The .uproject and select **Generate Visual Studio project files**
 
-3. Once the solution is generated open the solution and compile the project.
+3. Once the solution is generated, open the solution and compile the project.
 
-4. Once compiled open the unreal project in unreal and from the plugins menu ensure that the plugin is loaded.
+4. Once compiled, open the unreal project in unreal and from the plugins menu ensure that the plugin is loaded.
 
 ## 3. Quick Start
 **TODO INSERT LINK TO QUICKSTART VIDEO/S**
@@ -97,7 +98,7 @@ The UI is built entirely via Blueprints as an EditorUtilityWidget.
 The blueprint contains no specific logic in regards to the validations, all of the logic is available via API, and any logic in the Blueprint is related to updating the UI itself.
 
 ### 4.1 Menu Bar
-The main UI can be loaded from the the menu item within the Netflix menu.
+The main UI can be loaded from the menu item within the Netflix menu.
 
 <img src="/docs/images/menubar.png" alt="Validation Menu Bar">
 
@@ -112,19 +113,19 @@ Drop down box which allows the user to select a specific workflow we want to run
 This filters the validations visible and runnable from the UI.
 
 ### 4.4 Level Validation
-Toggle to select all of the Level based validations for the selected workflow.
+Toggle to select all of the Level-based validations for the selected workflow.
 
 This filters the validations visible and runnable from the UI
 
 ### 4.5 Project Validation
-Toggle to select all of the Project based validations for the selected workflow
+Toggle to select all of the Project-based validations for the selected workflow
 
 This filters the validations visible and runnable from the UI
 
 ### 4.6 Refresh
 Refresh button acts as an overall reset/refresh of the UI.
 This clears and resets all the existing states of the validations.
-As some validations are implemented via Blueprints, these may be registered after the UI and engine has loaded. (We cant know about Blueprints until they compile unlike c++ which we know is compiled ahead of time)
+As some validations are implemented via Blueprints, these may be registered after the UI and the engine has loaded: We can’t know about Blueprints until they compile, unlike c++ which we know is compiled ahead of time.
 Refresh ensures any new or updated validations are all populated into the UI.
 
 ### 4.7 Run All Validations
@@ -147,7 +148,7 @@ A simple graphical display of the validations result, this shows whether a valid
 
 ### 4.13 Validation Message
 Description of the outcome from the validation which was run.
-Descriptions often identify offending actors, objects and their incompatible settings so a user could choose to resolve manually if they so wish.
+Descriptions often identify offending actors, objects and their incompatible settings so a user could choose to resolve manually if required.
 
 ### 4.14 Fix
 Fix buttons exist for each validation, this runs the validation fix, for the specific validation.
