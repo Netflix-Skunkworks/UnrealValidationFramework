@@ -657,6 +657,7 @@ FValidationResult UValidationBPLibrary::ValidatePostProcessGrainSettings(const F
 	FValidationResult ValidationResult = FValidationResult(EValidationStatus::Pass, "");
 	FString Message = "";
 
+	#if ENGINE_MAJOR_VERSION < 5
 	if (!Settings.bOverride_GrainJitter)
 	{
 		ValidationResult.Result = EValidationStatus::Fail;
@@ -680,7 +681,19 @@ FValidationResult UValidationBPLibrary::ValidatePostProcessGrainSettings(const F
 		ValidationResult.Result = EValidationStatus::Fail;
 		Message += "GrainIntensity Is Not Set To 0.0\n";
 	}
+	#else
+	if (!Settings.bOverride_FilmGrainIntensity)
+	{
+		ValidationResult.Result = EValidationStatus::Fail;
+		Message += "Film Grain Intensity Is Not Enabled\n";
+	}
 
+	if (Settings.FilmGrainIntensity != 0.0)
+	{
+		ValidationResult.Result = EValidationStatus::Fail;
+		Message += "Film Grain Intensity Is Not Set To 0.0\n";
+	}
+	#endif
 	if (ValidationResult.Result == EValidationStatus::Pass)
 	{
 		ValidationResult.Message = "Valid";
@@ -689,7 +702,6 @@ FValidationResult UValidationBPLibrary::ValidatePostProcessGrainSettings(const F
 	{
 		ValidationResult.Message = ObjectName + "\n" + Message;
 	}
-	
 	return ValidationResult;
 }
 
@@ -698,6 +710,7 @@ FPostProcessSettings UValidationBPLibrary::FixPostProcessGrainSettings(FString O
 	FixResult.Result = EValidationFixStatus::NotFixed;
 	FString Message = "";
 
+	#if ENGINE_MAJOR_VERSION < 5
 	if (!Settings.bOverride_GrainIntensity)
 	{
 		FixResult.Result = EValidationFixStatus::Fixed;
@@ -725,7 +738,21 @@ FPostProcessSettings UValidationBPLibrary::FixPostProcessGrainSettings(FString O
 		Settings.GrainJitter = 0.0;
 		Message += "GrainJitter Set To 0.0\n";
 	}
+	#else
+	if (!Settings.bOverride_FilmGrainIntensity)
+	{
+		FixResult.Result = EValidationFixStatus::Fixed;
+		Settings.bOverride_FilmGrainIntensity = true;
+		Message += "Film Grain Intensity Is Enabled\n";
+	}
 
+	if (Settings.FilmGrainIntensity != 0.0)
+	{
+		FixResult.Result = EValidationFixStatus::Fixed;
+		Settings.FilmGrainIntensity = 0.0;
+		Message += "Film Grain Intensity Set To 0.0\n";
+	}
+	#endif
 	FixResult.Message = Message;
 	return Settings;
 	
