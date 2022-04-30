@@ -39,12 +39,13 @@ public class ValidationFramework : ModuleRules
 				"Engine",
 				"Slate",
 				"Projects",
-				"SlateCore", "EditorScriptingUtilities", "UMG", "EngineSettings", "UMGEditor",
+				"TimeManagement",
+				"SlateCore", "EditorScriptingUtilities", "UMG", "EngineSettings", "UMGEditor", "LevelSequence",
 				// ... add private dependencies that you statically link with here ...	
 			}
 			);
 
-		if (Target.Platform == UnrealTargetPlatform.Win32 || Target.Platform == UnrealTargetPlatform.Win64)
+		if (Target.Platform == UnrealTargetPlatform.Win64)
 		{
 			PrivateDependencyModuleNames.Add("DisplayCluster");
 			PrivateDependencyModuleNames.Add("DisplayClusterConfiguration");
