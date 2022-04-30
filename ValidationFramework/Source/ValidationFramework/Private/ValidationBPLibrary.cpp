@@ -971,7 +971,58 @@ FPostProcessSettings UValidationBPLibrary::FixPostProcessToneCurveSettings(FStri
 
 	FixResult.Message = Message;
 	return Settings;
+}
+
+FValidationResult UValidationBPLibrary::ValidatePostProcessChromaticAberrationSettings(const FString ObjectName, const FPostProcessSettings Settings)
+{
+	FValidationResult ValidationResult = FValidationResult(EValidationStatus::Pass, "");
+	FString Message = "";
+
+	if (Settings.bOverride_SceneFringeIntensity)
+	{
+		ValidationResult.Result = EValidationStatus::Fail;
+		Message += "Chromatic Aberration Is Enabled\n";
+	}
+
+	if (Settings.SceneFringeIntensity != 0.0)
+	{
+		ValidationResult.Result = EValidationStatus::Fail;
+		Message += "Chromatic Aberration Is Not Set To 0.0\n";
+	}
+
+	if (ValidationResult.Result == EValidationStatus::Pass)
+	{
+		ValidationResult.Message = "Valid";
+	}
+	else
+	{
+		ValidationResult.Message = ObjectName + "\n" + Message;
+	}
 	
+	return ValidationResult;
+}
+
+FPostProcessSettings UValidationBPLibrary::FixPostProcessChromaticAberrationSettings(FString ObjectName, FPostProcessSettings Settings, FValidationFixResult& FixResult)
+{
+	FixResult.Result = EValidationFixStatus::NotFixed;
+	FString Message = "";
+
+	if (Settings.bOverride_SceneFringeIntensity)
+	{
+		FixResult.Result = EValidationFixStatus::Fixed;
+		Settings.bOverride_SceneFringeIntensity = false;
+		Message += "Chromatic Aberration Disabled\n";
+	}
+
+	if (Settings.SceneFringeIntensity != 0.0)
+	{
+		FixResult.Result = EValidationFixStatus::Fixed;
+		Settings.SceneFringeIntensity = 0.0;
+		Message += "Chromatic Aberration Set To 0.0\n";
+	}
+	
+	FixResult.Message = Message;
+	return Settings;
 }
 
 FValidationResult UValidationBPLibrary::NDisplayMeshSettingsValidation(

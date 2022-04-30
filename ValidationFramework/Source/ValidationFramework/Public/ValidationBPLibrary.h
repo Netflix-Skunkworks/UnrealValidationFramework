@@ -261,6 +261,27 @@ class UValidationBPLibrary final : public UBlueprintFunctionLibrary
 		FString ObjectName, FPostProcessSettings Settings, FValidationFixResult& FixResult);
 
 	/**
+	* Validates the chromatic aberration settings for the given post process settings for ICVFX workflows
+	* @param ObjectName - The name of the UObject which the settings relate too
+	* @param Settings - The postprocessing settings we want to correct the settings within
+	* @return Returns ValidationResult for these post process settings
+	*/
+	UFUNCTION(BlueprintCallable, Category="ValidationBPLibrary")
+	static FValidationResult ValidatePostProcessChromaticAberrationSettings(
+		const FString ObjectName, const FPostProcessSettings Settings);
+
+	/**
+	* Fixes the chromatic aberration setting for the given post process settings for ICVFX workflows
+	* @param ObjectName - The name of the UObject which the settings relate too
+	* @param Settings - The postprocessing settings we want to correct the settings within
+	* @param FixResult - The results of the fix to ensure it was a success etc
+	* @return Returns the fixed and updated post process settings
+	*/
+	UFUNCTION(BlueprintCallable, Category="ValidationBPLibrary")
+	static FPostProcessSettings FixPostProcessChromaticAberrationSettings(
+		FString ObjectName, FPostProcessSettings Settings, FValidationFixResult& FixResult);
+
+	/**
 	* Helper function to mark the current open levels as dirty at the end of validation fixes
 	* @return whether the operation was a success or not
 	*/
