@@ -17,7 +17,7 @@ With this in mind, the system can easily be extended to encompass custom workflo
 
 The Validation Framework is not solely for use on a stage, it can also be utilized during the prep and content build phases, ensuring issues are handled before moving down the production pipeline ahead of time.
 
-The tool is shipped with a set of the most common and required checks and fixes for a ICVFX production which cause challenges on a regular basis. This set comes as a result of a collaboration between the Virtual Production teams at Netflix and Epic Games and the collected knowledge and experience in ICVFX productions.
+The plugin is shipped with a set of validations for the most commonly required checks and fixes which cause challenges on a regular basis during ICVFX productions. This set of validations, comes as a result of a collaboration between the Virtual Production teams at Netflix and Epic Games, and their collected knowledge and experience of ICVFX productions.
 
 The system can also be integrated into pipelines and additional tooling around CI/CD to generate validation reports.
 
