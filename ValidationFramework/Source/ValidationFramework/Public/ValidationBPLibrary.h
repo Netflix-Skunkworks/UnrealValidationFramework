@@ -343,5 +343,30 @@ class UValidationBPLibrary final : public UBlueprintFunctionLibrary
 	*/
 	UFUNCTION(BlueprintCallable, Category="ValidationBPLibrary")
 	static bool GenerateValidationReport(const FString LevelPath, const EValidationWorkflow Workflow, const FString ReportPath="");
+
+	/**
+	* Checks that any Sequences found in the world, have frame rates which match the given frame rate, or are valid
+	* multiples
+	* @param World - The world in which we want to find sequences within 
+	* @param Rate - The frame rate we want to check the sequence against
+	* @return Returns ValidationResult
+	*/
+	UFUNCTION(BlueprintCallable, Category="ValidationBPLibrary")
+	static FValidationResult ValidateSequencesAgainstFrameRate(
+		const UWorld* World,
+		const FFrameRate Rate);
+
+	/**
+	* Checks that any Sequences found in the world, any frame rates which do not match the given frame rate, are set to
+	* match unless its a valid multiple, ie 48 against 24. In this case this could be valid so we do not touch but report
+	* to the user to check
+	* @param World - The world in which we want to find sequences within 
+	* @param Rate - The frame rate we want to check the sequence against
+	* @return Returns ValidationFixResult
+	*/
+	UFUNCTION(BlueprintCallable, Category="ValidationBPLibrary")
+	static FValidationFixResult FixSequencesAgainstFrameRate(
+		const UWorld* World,
+		const FFrameRate Rate);
 	
 };

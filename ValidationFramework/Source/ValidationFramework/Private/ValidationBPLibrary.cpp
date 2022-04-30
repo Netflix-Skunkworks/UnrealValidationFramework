@@ -27,6 +27,9 @@ limitations under the License.
 #include "Kismet/GameplayStatics.h"
 #include "Kismet2/KismetEditorUtilities.h"
 #include "FileHelpers.h"
+#include "LevelSequenceActor.h"
+#include "TimeManagementBlueprintLibrary.h"
+
 #include "Misc/FileHelper.h"
 #if PLATFORM_WINDOWS || PLATFORM_LINUX
 #include "DisplayClusterRootActor.h"
@@ -1193,6 +1196,110 @@ bool UValidationBPLibrary::GenerateValidationReport(const FString LevelPath, con
 	
 	return ExportValidationReport(ValidationReportDataTable, ReportPath);
 }
+
+FValidationResult UValidationBPLibrary::ValidateSequencesAgainstFrameRate( const UWorld* World, const FFrameRate Rate)
+{
+	FValidationResult ValidationResult = FValidationResult(EValidationStatus::Pass, "");
+	FString Message = "";
+	if (!World)
+	{
+		ValidationResult.Result = EValidationStatus::Fail;
+		ValidationResult.Message = "Invalid World Provided";
+		return ValidationResult;
+	}
+
+	TArray<AActor*> FoundActors;
+	UGameplayStatics::GetAllActorsOfClass(World, ALevelSequenceActor::StaticClass(), FoundActors);
+	for (const auto FoundActor : FoundActors)
+	{
+		FValidationResult ActorValidationResult = FValidationResult(EValidationStatus::Pass, "");
+		const ALevelSequenceActor* LevelSequenceActor = Cast<ALevelSequenceActor>(FoundActor);
+		const ULevelSequence* LevelSequence = LevelSequenceActor->LoadSequence();
+		FFrameRate SequenceRate = LevelSequence->MovieScene->GetDisplayRate();
+
+		// We check the level sequence display rate vs the project frame rate and if they do not match we fail
+		if (SequenceRate.Numerator != Rate.Numerator || SequenceRate.Denominator != Rate.Denominator)
+		{
+			ActorValidationResult.Result = EValidationStatus::Fail;
+			ActorValidationResult.Message = FoundActor->GetName() + " frame rate "
+				+ FString::FromInt(SequenceRate.Numerator) + " does not match the project frame rate "
+				+ FString::FromInt(Rate.Numerator);
+
+			if (UTimeManagementBlueprintLibrary::IsValid_MultipleOf(Rate, SequenceRate))
+			{
+				ActorValidationResult.Result = EValidationStatus::Warning;
+				ActorValidationResult.Message += " but is a valid multiple, please check this is expected";
+			}
+		}
+
+		if (ActorValidationResult.Result < ValidationResult.Result)
+		{
+			ValidationResult.Result = ActorValidationResult.Result;
+		}
+		
+		ValidationResult.Message += ActorValidationResult.Message + "\n";
+	}
+
+	return ValidationResult;
+}
+
+FValidationFixResult UValidationBPLibrary::FixSequencesAgainstFrameRate( const UWorld* World, const FFrameRate Rate)
+{
+
+	FValidationFixResult ValidationFixResult = FValidationFixResult(EValidationFixStatus::Fixed, "");
+	FString Message = "";
+	if (!World)
+	{
+		ValidationFixResult.Result = EValidationFixStatus::NotFixed;
+		ValidationFixResult.Message = "Invalid World Provided\n";
+		return ValidationFixResult;
+	}
+
+	TArray<AActor*> FoundActors;
+	UGameplayStatics::GetAllActorsOfClass(World, ALevelSequenceActor::StaticClass(), FoundActors);
+	for (const auto FoundActor : FoundActors)
+	{
+		FValidationFixResult ActorValidationFixResult = FValidationFixResult(EValidationFixStatus::Fixed, "");
+		const ALevelSequenceActor* LevelSequenceActor = Cast<ALevelSequenceActor>(FoundActor);
+		ULevelSequence* LevelSequence = LevelSequenceActor->LoadSequence();
+		const FFrameRate SequenceRate = LevelSequence->MovieScene->GetDisplayRate();
+
+		// We check the level sequence display rate vs the project frame rate and if they do not match we fail
+		if (SequenceRate.Numerator != Rate.Numerator || SequenceRate.Denominator != Rate.Denominator)
+		{
+			ActorValidationFixResult.Result = EValidationFixStatus::NotFixed;
+
+			// If it is a potentially valid multiple we flag this as needing a manual fix as we do not know for sure 
+			// this is intentional or not
+			if (UTimeManagementBlueprintLibrary::IsValid_MultipleOf(Rate, SequenceRate))
+			{
+				ActorValidationFixResult.Result = EValidationFixStatus::ManualFix;
+				ActorValidationFixResult.Message += LevelSequenceActor->GetName() +
+					" Frame Rate Should Be Checked Manually";
+			}
+			
+		}
+
+		// If the sequence is still flagged as not fixed we fix it because we know its not already Fixed and can not be
+		// left for manual inspection as its not a valid multiple
+		if (ActorValidationFixResult.Result == EValidationFixStatus::NotFixed)
+		{
+			LevelSequence->MovieScene->SetDisplayRate(Rate);
+			ActorValidationFixResult.Message += LevelSequence->GetName() + " Set Frame Rate To " +
+				FString::FromInt(Rate.Numerator);
+		}
+
+		if (ActorValidationFixResult.Result < ValidationFixResult.Result)
+		{
+			ValidationFixResult.Result = ActorValidationFixResult.Result;
+		}
+
+		ValidationFixResult.Message += ActorValidationFixResult.Message + "\n";
+	}
+
+	return ValidationFixResult;
+}
+
 
 
  
