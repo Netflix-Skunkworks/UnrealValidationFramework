@@ -84,6 +84,7 @@ FValidationFixResult UValidation_Level_NDisplay_Mesh_UV_0_1::Fix_Implementation(
 EValidationStatus UValidation_Level_NDisplay_Mesh_UV_0_1::ValidateUVs(UStaticMesh* StaticMesh, const int LodIndex,
 	FString& Message)
 {
+
 	EValidationStatus Result = EValidationStatus::Pass;
 	const uint32 NumUVChannels = StaticMesh->GetNumUVChannels(LodIndex);
 	const FStaticMeshLODResources& LODResource = StaticMesh->GetRenderData()->LODResources[LodIndex];
@@ -92,13 +93,21 @@ EValidationStatus UValidation_Level_NDisplay_Mesh_UV_0_1::ValidateUVs(UStaticMes
 	{
 		for (uint32 i = 0; i < NumVerts; i++)
 		{
-			const FVector2D UVPosition = LODResource.VertexBuffers.StaticMeshVertexBuffer.GetVertexUV(i, UV);
+
+			#if ENGINE_MAJOR_VERSION < 5
+				const FVector2D UVPosition = LODResource.VertexBuffers.StaticMeshVertexBuffer.GetVertexUV(i, UV);
+			#else
+				const FVector2f UVPosition = LODResource.VertexBuffers.StaticMeshVertexBuffer.GetVertexUV(i, UV);
+			#endif
+			
+			
 			if (UVPosition.X > 1 || UVPosition.X < 0 || UVPosition.Y > 1 || UVPosition.Y < 0)
 			{
 				Result = EValidationStatus::Fail;
 				Message += StaticMesh->GetPathName() + " LOD " + FString::FromInt(LodIndex) + " Has UVs In Channel " + FString::FromInt(UV) + " Outside 0-1 Space\n";
 				break;
 			}
+			
 		}
 	}
 
