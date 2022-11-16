@@ -32,6 +32,7 @@ limitations under the License.
 #include "TimeManagementBlueprintLibrary.h"
 
 #include "Misc/FileHelper.h"
+#include "Subsystems/UnrealEditorSubsystem.h"
 #if PLATFORM_WINDOWS || PLATFORM_LINUX
 #include "DisplayClusterRootActor.h"
 #include "DisplayClusterConfigurationTypes.h"
@@ -457,7 +458,8 @@ FValidationResult UValidationBPLibrary::ValidatePostProcessExposureSettings(
 bool UValidationBPLibrary::MarkCurrentLevelDirty()
 {
 	bool Success = false;
-	const UWorld* World = UEditorLevelLibrary ::GetEditorWorld();
+	UUnrealEditorSubsystem* UnrealEditorSubsystem = GEditor->GetEditorSubsystem<UUnrealEditorSubsystem>();
+	const UWorld* World = UnrealEditorSubsystem->GetEditorWorld();
 	if (!World)
 	{
 		
