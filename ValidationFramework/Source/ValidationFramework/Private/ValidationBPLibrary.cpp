@@ -27,6 +27,7 @@ limitations under the License.
 #include "Kismet/GameplayStatics.h"
 #include "Kismet2/KismetEditorUtilities.h"
 #include "FileHelpers.h"
+#include "LevelSequence.h"
 #include "LevelSequenceActor.h"
 #include "TimeManagementBlueprintLibrary.h"
 
@@ -1214,7 +1215,7 @@ FValidationResult UValidationBPLibrary::ValidateSequencesAgainstFrameRate( const
 	{
 		FValidationResult ActorValidationResult = FValidationResult(EValidationStatus::Pass, "");
 		const ALevelSequenceActor* LevelSequenceActor = Cast<ALevelSequenceActor>(FoundActor);
-		const ULevelSequence* LevelSequence = LevelSequenceActor->LoadSequence();
+		const ULevelSequence* LevelSequence = LevelSequenceActor->GetSequence();
 		FFrameRate SequenceRate = LevelSequence->MovieScene->GetDisplayRate();
 
 		// We check the level sequence display rate vs the project frame rate and if they do not match we fail
@@ -1261,7 +1262,7 @@ FValidationFixResult UValidationBPLibrary::FixSequencesAgainstFrameRate( const U
 	{
 		FValidationFixResult ActorValidationFixResult = FValidationFixResult(EValidationFixStatus::Fixed, "");
 		const ALevelSequenceActor* LevelSequenceActor = Cast<ALevelSequenceActor>(FoundActor);
-		ULevelSequence* LevelSequence = LevelSequenceActor->LoadSequence();
+		ULevelSequence* LevelSequence = LevelSequenceActor->GetSequence();
 		const FFrameRate SequenceRate = LevelSequence->MovieScene->GetDisplayRate();
 
 		// We check the level sequence display rate vs the project frame rate and if they do not match we fail
