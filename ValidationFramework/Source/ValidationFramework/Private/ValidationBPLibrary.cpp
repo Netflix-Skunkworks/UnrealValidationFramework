@@ -1043,10 +1043,10 @@ FValidationResult UValidationBPLibrary::NDisplayMeshSettingsValidation(
 	for (AActor* FoundActor : FoundActors)
 	{
 		const ADisplayClusterRootActor* MyActor = Cast<ADisplayClusterRootActor>(FoundActor);
-		TArray<UActorComponent*> ActorComponents =  MyActor->GetComponentsByClass(UStaticMeshComponent::StaticClass());
-		for (UActorComponent* ActorComponent : ActorComponents)
+		TInlineComponentArray<UStaticMeshComponent*> StaticMeshComponents;
+		MyActor->GetComponents(StaticMeshComponents);
+		for (UStaticMeshComponent* StaticMeshComponent : StaticMeshComponents)
 		{
-			const UStaticMeshComponent* StaticMeshComponent = Cast<UStaticMeshComponent>(ActorComponent);
 			UStaticMesh* StaticMesh = StaticMeshComponent->GetStaticMesh();
 			const bool ExcludeMesh = ExcludeMeshFromNDisplayValidation(StaticMesh);
 			if (ExcludeMesh)
