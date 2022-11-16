@@ -141,11 +141,10 @@ void UValidation_Level_ICVFXConfig_ColorGrading::ValidatePerViewPortColorGrading
 void UValidation_Level_ICVFXConfig_ColorGrading::ValidateInnerFrustumColorGrading(
 	FValidationResult& Result, FString& ActorMessages, const ADisplayClusterRootActor* Actor) const
 {
-	TArray<UActorComponent*> ActorComponents =  Actor->GetComponentsByClass(UDisplayClusterICVFXCameraComponent::StaticClass());
-	for (UActorComponent* ActorComponent : ActorComponents)
+	TInlineComponentArray<UDisplayClusterICVFXCameraComponent*> IcvfxCameraComponents;
+	Actor->GetComponents(IcvfxCameraComponents);
+	for (const UDisplayClusterICVFXCameraComponent* IcvfxCameraComponent : IcvfxCameraComponents)
 	{
-			
-		const UDisplayClusterICVFXCameraComponent* IcvfxCameraComponent = Cast<UDisplayClusterICVFXCameraComponent>(ActorComponent);
 		const bool BlueCorrectionEnabled = IcvfxCameraComponent->CameraSettings.AllNodesColorGrading.ColorGradingSettings.Misc.bOverride_BlueCorrection;
 		const float BlueCorrection = IcvfxCameraComponent->CameraSettings.AllNodesColorGrading.ColorGradingSettings.Misc.BlueCorrection;
 
@@ -257,11 +256,10 @@ void UValidation_Level_ICVFXConfig_ColorGrading::FixPerViewportColorGrading(FStr
 void UValidation_Level_ICVFXConfig_ColorGrading::FixInnerFrustumColorGrading(
 	FValidationFixResult& Result, FString& ActorMessages, const ADisplayClusterRootActor* Actor) const
 {
-	TArray<UActorComponent*> ActorComponents =  Actor->GetComponentsByClass(UDisplayClusterICVFXCameraComponent::StaticClass());
-	for (UActorComponent* ActorComponent : ActorComponents)
+	TInlineComponentArray<UDisplayClusterICVFXCameraComponent*> IcvfxCameraComponents;
+	Actor->GetComponents(IcvfxCameraComponents);
+	for (UDisplayClusterICVFXCameraComponent* IcvfxCameraComponent : IcvfxCameraComponents)
 	{
-			
-		UDisplayClusterICVFXCameraComponent* IcvfxCameraComponent = Cast<UDisplayClusterICVFXCameraComponent>(ActorComponent);
 		const bool BlueCorrectionEnabled = IcvfxCameraComponent->CameraSettings.AllNodesColorGrading.ColorGradingSettings.Misc.bOverride_BlueCorrection;
 		const float BlueCorrection = IcvfxCameraComponent->CameraSettings.AllNodesColorGrading.ColorGradingSettings.Misc.BlueCorrection;
 
