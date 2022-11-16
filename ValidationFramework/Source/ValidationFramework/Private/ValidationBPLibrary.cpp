@@ -109,20 +109,26 @@ TArray<UObject*> UValidationBPLibrary::GetAllValidationsFromBlueprints()
 	//ContentPaths.Add(PluginContentDir);
 	AssetRegistry.ScanPathsSynchronous(ContentPaths);
 
-	FName BaseClassName = UValidationBase::StaticClass()->GetFName();
+	FTopLevelAssetPath BaseClassName = UValidationBase::StaticClass()->GetClassPathName();
 
 	// Use the asset registry to get the set of all class names deriving from Base
-	TSet< FName > DerivedNames;
+	TSet< FTopLevelAssetPath > DerivedPaths;
 	{
-		TArray< FName > BaseNames;
+		TArray< FTopLevelAssetPath > BaseNames;
 		BaseNames.Add(BaseClassName);
 
-		TSet< FName > Excluded;
-		AssetRegistry.GetDerivedClassNames(BaseNames, Excluded, DerivedNames);
+		TSet< FTopLevelAssetPath > Excluded;
+		AssetRegistry.GetDerivedClassNames(BaseNames, Excluded, DerivedPaths);
+	}
+
+	TSet< FName > DerivedNames;
+	for(auto const& DerivedPath : DerivedPaths)
+	{
+		DerivedNames.Add(DerivedPath.GetAssetName());
 	}
 
 	FARFilter Filter;
-	Filter.ClassNames.Add(UBlueprint::StaticClass()->GetFName());
+	Filter.ClassPaths.Add(UBlueprint::StaticClass()->GetClassPathName());
 	Filter.bRecursiveClasses = true;
 	Filter.bRecursivePaths = true;
 
@@ -149,7 +155,7 @@ TArray<UObject*> UValidationBPLibrary::GetAllValidationsFromBlueprints()
 			}
 
 			FSoftObjectPath SoftPath = FSoftObjectPath(ClassObjectPath);
-			TAssetSubclassOf<UObject> AssetSubclass = TAssetSubclassOf<UObject>(SoftPath);
+			TSoftClassPtr<UObject> AssetSubclass = TSoftClassPtr<UObject>(SoftPath);
 			UClass* ClassLoaded = AssetSubclass.LoadSynchronous();
 			UObject* Object = ClassLoaded->GetDefaultObject();
 			ValidationObjects.Add(Object);
