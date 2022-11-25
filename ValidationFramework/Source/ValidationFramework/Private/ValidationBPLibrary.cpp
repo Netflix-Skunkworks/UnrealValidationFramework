@@ -30,6 +30,7 @@ limitations under the License.
 #include "LevelSequence.h"
 #include "LevelSequenceActor.h"
 #include "TimeManagementBlueprintLibrary.h"
+#include "ISettingsEditorModule.h"
 
 #include "Misc/FileHelper.h"
 #include "Subsystems/UnrealEditorSubsystem.h"
@@ -37,6 +38,10 @@ limitations under the License.
 #include "DisplayClusterRootActor.h"
 #include "DisplayClusterConfigurationTypes.h"
 #endif
+#if PLATFORM_WINDOWS
+#include "WindowsTargetSettings.h"
+#endif
+
 
 UValidationBPLibrary::UValidationBPLibrary(const FObjectInitializer& ObjectInitializer)
 : Super(ObjectInitializer)
@@ -1307,6 +1312,45 @@ FValidationFixResult UValidationBPLibrary::FixSequencesAgainstFrameRate( const U
 	}
 
 	return ValidationFixResult;
+}
+
+bool UValidationBPLibrary::CheckDefaultRHIIsDirectX12()
+{
+#if PLATFORM_WINDOWS
+	const UWindowsTargetSettings* Settings = GetMutableDefault<UWindowsTargetSettings>();
+	return (Settings->DefaultGraphicsRHI == EDefaultGraphicsRHI::DefaultGraphicsRHI_DX12);
+#else
+	return false;
+#endif
+	
+}
+
+
+bool UValidationBPLibrary::SetProjectRHIDirectX12()
+{
+#if PLATFORM_WINDOWS
+	UWindowsTargetSettings* Settings = GetMutableDefault<UWindowsTargetSettings>();
+	if (Settings->DefaultGraphicsRHI != EDefaultGraphicsRHI::DefaultGraphicsRHI_DX12)
+	{
+		Settings->DefaultGraphicsRHI = EDefaultGraphicsRHI::DefaultGraphicsRHI_DX12;
+		Settings->SaveConfig();
+		WarnAboutRestart();
+		return true;
+		
+	}
+	return false;
+#else
+	return false;
+#endif
+}
+
+void UValidationBPLibrary::WarnAboutRestart()
+{
+	ISettingsEditorModule* SettingsEditorModule = FModuleManager::GetModulePtr<ISettingsEditorModule>("SettingsEditor");
+	if (SettingsEditorModule)
+	{
+		SettingsEditorModule->OnApplicationRestartRequired();
+	}
 }
 
 

@@ -40,7 +40,7 @@ public class ValidationFramework : ModuleRules
 				"Slate",
 				"Projects",
 				"TimeManagement",
-				"SlateCore", "EditorScriptingUtilities", "UMG", "EngineSettings", "UMGEditor", "LevelSequence",
+				"SlateCore", "EditorScriptingUtilities", "UMG", "EngineSettings", "UMGEditor", "LevelSequence", "SettingsEditor", "SettingsEditor",
 				// ... add private dependencies that you statically link with here ...	
 			}
 			);
@@ -49,6 +49,7 @@ public class ValidationFramework : ModuleRules
 		{
 			PrivateDependencyModuleNames.Add("DisplayCluster");
 			PrivateDependencyModuleNames.Add("DisplayClusterConfiguration");
+			PrivateDependencyModuleNames.Add("WindowsTargetPlatform");
 			
 		}
 		

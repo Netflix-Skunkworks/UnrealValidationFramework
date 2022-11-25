@@ -368,5 +368,25 @@ class UValidationBPLibrary final : public UBlueprintFunctionLibrary
 	static FValidationFixResult FixSequencesAgainstFrameRate(
 		const UWorld* World,
 		const FFrameRate Rate);
+
+	/**
+	* Checks To See If The Default RHI Is Set To DirectX
+	* @return Returns true or false
+	*/
+	UFUNCTION(BlueprintCallable, Category="ValidationBPLibrary")
+	static bool CheckDefaultRHIIsDirectX12();
+	
+	/**
+	* Sets The Default RHI to DirectX12 If Not Set
+	* @return Returns true or false
+	*/
+	UFUNCTION(BlueprintCallable, Category="ValidationBPLibrary")
+	static bool SetProjectRHIDirectX12();
+
+	/**
+	* Causes The Editor To Raise The Restart Editor Warning
+	*/
+	UFUNCTION(BlueprintCallable, Category="ValidationBPLibrary")
+	static void WarnAboutRestart();
 	
 };
