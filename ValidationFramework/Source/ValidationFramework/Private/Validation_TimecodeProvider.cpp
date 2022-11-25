@@ -64,7 +64,7 @@ FValidationResult UValidation_TimecodeProvider::Validation_Implementation()
 	const FFrameRate ProjectFrameRate = ProjectSettings->ProjectFrameRate;
 
 	const EFrameRateComparisonStatus GeneratedFrameRateComparison = UValidationBPLibrary::CompareFrameRateCompatability(
-		ProjectFrameRate, GeneratedFrameRate);
+		GeneratedFrameRate, ProjectFrameRate);
 
 	if (GeneratedFrameRateComparison == EFrameRateComparisonStatus::InValid)
 	{
@@ -79,7 +79,7 @@ FValidationResult UValidation_TimecodeProvider::Validation_Implementation()
 	{
 		const FFrameRate TimecodeProviderRate = TimecodeProvider->GetFrameRate();
 		const EFrameRateComparisonStatus TimecodeProviderRateComparison = UValidationBPLibrary::CompareFrameRateCompatability(
-			ProjectFrameRate, TimecodeProviderRate);
+			TimecodeProviderRate, ProjectFrameRate);
 
 		if (TimecodeProviderRateComparison == EFrameRateComparisonStatus::InValid)
 		{
@@ -91,8 +91,7 @@ FValidationResult UValidation_TimecodeProvider::Validation_Implementation()
 	// If We Have A Timecode Provider Check Its Not A System Timecode Generator & Advise Not To Use It 
 	if (TimecodeProvider)
 	{
-		const bool Result = TimecodeProvider->IsA(TimecodeProvider->StaticClass());
-		if (Result)
+		if (TimecodeProvider->IsA(TimecodeProvider->StaticClass()))
 		{
 			if (VFResult.Result > EValidationStatus::Warning)
 			{
