@@ -1231,19 +1231,21 @@ FValidationResult UValidationBPLibrary::ValidateSequencesAgainstFrameRate( const
 		const ULevelSequence* LevelSequence = LevelSequenceActor->GetSequence();
 		FFrameRate SequenceRate = LevelSequence->MovieScene->GetDisplayRate();
 
+		const EFrameRateComparisonStatus RateComparison = CompareFrameRateCompatability(SequenceRate, Rate);
+
 		// We check the level sequence display rate vs the project frame rate and if they do not match we fail
-		if (SequenceRate.Numerator != Rate.Numerator || SequenceRate.Denominator != Rate.Denominator)
+		if (RateComparison == EFrameRateComparisonStatus::InValid)
 		{
 			ActorValidationResult.Result = EValidationStatus::Fail;
 			ActorValidationResult.Message = FoundActor->GetName() + " frame rate "
 				+ FString::FromInt(SequenceRate.Numerator) + " does not match the project frame rate "
 				+ FString::FromInt(Rate.Numerator);
-
-			if (UTimeManagementBlueprintLibrary::IsValid_MultipleOf(Rate, SequenceRate))
-			{
-				ActorValidationResult.Result = EValidationStatus::Warning;
-				ActorValidationResult.Message += " but is a valid multiple, please check this is expected";
-			}
+			
+		}
+		if (RateComparison == EFrameRateComparisonStatus::ValidMultiple)
+		{
+			ActorValidationResult.Result = EValidationStatus::Warning;
+			ActorValidationResult.Message += " but is a valid multiple, please check this is expected";
 		}
 
 		if (ActorValidationResult.Result < ValidationResult.Result)
@@ -1278,20 +1280,17 @@ FValidationFixResult UValidationBPLibrary::FixSequencesAgainstFrameRate( const U
 		ULevelSequence* LevelSequence = LevelSequenceActor->GetSequence();
 		const FFrameRate SequenceRate = LevelSequence->MovieScene->GetDisplayRate();
 
-		// We check the level sequence display rate vs the project frame rate and if they do not match we fail
-		if (SequenceRate.Numerator != Rate.Numerator || SequenceRate.Denominator != Rate.Denominator)
+		const EFrameRateComparisonStatus RateComparison = CompareFrameRateCompatability(SequenceRate, Rate);
+		if (RateComparison == EFrameRateComparisonStatus::InValid)
 		{
 			ActorValidationFixResult.Result = EValidationFixStatus::NotFixed;
+		}
 
-			// If it is a potentially valid multiple we flag this as needing a manual fix as we do not know for sure 
-			// this is intentional or not
-			if (UTimeManagementBlueprintLibrary::IsValid_MultipleOf(Rate, SequenceRate))
-			{
-				ActorValidationFixResult.Result = EValidationFixStatus::ManualFix;
-				ActorValidationFixResult.Message += LevelSequenceActor->GetName() +
-					" Frame Rate Should Be Checked Manually";
-			}
-			
+		if (RateComparison == EFrameRateComparisonStatus::ValidMultiple)
+		{
+			ActorValidationFixResult.Result = EValidationFixStatus::ManualFix;
+			ActorValidationFixResult.Message += LevelSequenceActor->GetName() +
+				" Frame Rate Should Be Checked Manually";
 		}
 
 		// If the sequence is still flagged as not fixed we fix it because we know its not already Fixed and can not be
@@ -1351,6 +1350,22 @@ void UValidationBPLibrary::WarnAboutRestart()
 	{
 		SettingsEditorModule->OnApplicationRestartRequired();
 	}
+}
+
+EFrameRateComparisonStatus UValidationBPLibrary::CompareFrameRateCompatability(FFrameRate FrameRate1, FFrameRate FrameRate2)
+{
+	if (FrameRate1.Numerator != FrameRate2.Numerator || FrameRate1.Denominator != FrameRate2.Denominator)
+	{
+		
+		if (UTimeManagementBlueprintLibrary::IsValid_MultipleOf(FrameRate2, FrameRate1))
+		{
+			return EFrameRateComparisonStatus::ValidMultiple;
+		}
+
+		return EFrameRateComparisonStatus::InValid;
+	}
+	
+	return EFrameRateComparisonStatus::Valid;
 }
 
 

@@ -370,23 +370,34 @@ class UValidationBPLibrary final : public UBlueprintFunctionLibrary
 		const FFrameRate Rate);
 
 	/**
-	* Checks To See If The Default RHI Is Set To DirectX
+	* Checks to see if the default RHI is set to DirectX12
 	* @return Returns true or false
 	*/
 	UFUNCTION(BlueprintCallable, Category="ValidationBPLibrary")
 	static bool CheckDefaultRHIIsDirectX12();
 	
 	/**
-	* Sets The Default RHI to DirectX12 If Not Set
+	* Sets the default RHI to DirectX12 if not set
 	* @return Returns true or false
 	*/
 	UFUNCTION(BlueprintCallable, Category="ValidationBPLibrary")
 	static bool SetProjectRHIDirectX12();
 
 	/**
-	* Causes The Editor To Raise The Restart Editor Warning
+	* Causes the editor to raise the restart editor warning
 	*/
 	UFUNCTION(BlueprintCallable, Category="ValidationBPLibrary")
 	static void WarnAboutRestart();
+
+	/**
+	* Compares two frame rates and tells us whether they are compatible with each other
+	* @param FrameRate1 - The source Frame Rate we want to check against
+	* @param FrameRate2 - The comparison Frame Rate we want to check to see if its compatible with FrameRate1
+	* @return Returns EFrameRateComparisonStatus which tells us if the frame rates are compatible
+	*/
+	UFUNCTION(BlueprintCallable, Category="ValidationBPLibrary")
+	static EFrameRateComparisonStatus CompareFrameRateCompatability(FFrameRate FrameRate1, FFrameRate FrameRate2);
+
+	
 	
 };

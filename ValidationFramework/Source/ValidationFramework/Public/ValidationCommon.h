@@ -46,6 +46,17 @@ enum class EValidationFixStatus : uint8
 };
 
 /**
+* An enum to represent the different outcomes of a frame rate comparison
+*/
+UENUM(BlueprintType)
+enum class EFrameRateComparisonStatus : uint8
+{
+	Valid = 2		UMETA(DisplayName = "Valid"),
+	ValidMultiple = 1		UMETA(DisplayName = "ValidMultiple"),
+	InValid = 0		UMETA(DisplayName = "InValid"),
+};
+
+/**
 * A struct to hold the results of a validation
 */
 USTRUCT(BlueprintType)
