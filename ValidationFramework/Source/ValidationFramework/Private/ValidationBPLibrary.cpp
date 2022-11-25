@@ -1354,9 +1354,14 @@ void UValidationBPLibrary::WarnAboutRestart()
 
 EFrameRateComparisonStatus UValidationBPLibrary::CompareFrameRateCompatability(FFrameRate FrameRate1, FFrameRate FrameRate2)
 {
+
+	if (!FrameRate2.IsValid() || !FrameRate1.IsValid())
+	{
+		return EFrameRateComparisonStatus::InValid;
+	}
+	
 	if (FrameRate1.Numerator != FrameRate2.Numerator || FrameRate1.Denominator != FrameRate2.Denominator)
 	{
-		
 		if (UTimeManagementBlueprintLibrary::IsValid_MultipleOf(FrameRate2, FrameRate1))
 		{
 			return EFrameRateComparisonStatus::ValidMultiple;
