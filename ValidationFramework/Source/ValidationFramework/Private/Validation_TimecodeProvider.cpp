@@ -63,18 +63,25 @@ FValidationResult UValidation_TimecodeProvider::Validation_Implementation()
 	const UVFProjectSettingsBase* ProjectSettings = Cast<UVFProjectSettingsBase>(Settings);
 	const FFrameRate ProjectFrameRate = ProjectSettings->ProjectFrameRate;
 
-	if (ProjectFrameRate.Numerator != GeneratedFrameRate.Numerator ||  ProjectFrameRate.Denominator != GeneratedFrameRate.Denominator)
+	const EFrameRateComparisonStatus GeneratedFrameRateComparison = UValidationBPLibrary::CompareFrameRateCompatability(
+		ProjectFrameRate, GeneratedFrameRate);
+
+	if (GeneratedFrameRateComparison == EFrameRateComparisonStatus::InValid)
 	{
 		VFResult.Result = EValidationStatus::Fail;
 		VFResult.Message += "\nThe Default Generated Rate Does Not Match The Project Frame Rate";
 	}
+	
 
 	// If We Have A Timecode Provider Check Its Rate Matches The Validation Framework Project Rate
 	const UTimecodeProvider* TimecodeProvider = GEngine->GetTimecodeProvider();
 	if (TimecodeProvider)
 	{
 		const FFrameRate TimecodeProviderRate = TimecodeProvider->GetFrameRate();
-		if (ProjectFrameRate.Numerator != TimecodeProviderRate.Numerator ||  ProjectFrameRate.Denominator != TimecodeProviderRate.Denominator)
+		const EFrameRateComparisonStatus TimecodeProviderRateComparison = UValidationBPLibrary::CompareFrameRateCompatability(
+			ProjectFrameRate, TimecodeProviderRate);
+
+		if (TimecodeProviderRateComparison == EFrameRateComparisonStatus::InValid)
 		{
 			VFResult.Result = EValidationStatus::Fail;
 			VFResult.Message += "\nThe FrameRate Provided By The TimecodeProvider Does Not Match The Project Frame Rate";
