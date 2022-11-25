@@ -25,7 +25,7 @@ public class ValidationFramework : ModuleRules
 		PublicDependencyModuleNames.AddRange(
 			new string[]
 			{
-				"Core", "Blutility", "OpenColorIO", "SlateCore",
+				"Core", "Blutility", "OpenColorIO", "SlateCore", "ImgMedia",
 				// ... add other public dependencies that you statically link with here ...
 			}
 			);
@@ -40,7 +40,9 @@ public class ValidationFramework : ModuleRules
 				"Slate",
 				"Projects",
 				"TimeManagement",
-				"SlateCore", "EditorScriptingUtilities", "UMG", "EngineSettings", "UMGEditor", "LevelSequence", "SettingsEditor", "SettingsEditor",
+				"SlateCore", "EditorScriptingUtilities", "UMG", "EngineSettings", "UMGEditor", 
+				"LevelSequence", "SettingsEditor", "SettingsEditor", "MediaPlate", "MediaAssets", "MediaUtils", 
+				"ImgMedia",
 				// ... add private dependencies that you statically link with here ...	
 			}
 			);
@@ -50,7 +52,7 @@ public class ValidationFramework : ModuleRules
 			PrivateDependencyModuleNames.Add("DisplayCluster");
 			PrivateDependencyModuleNames.Add("DisplayClusterConfiguration");
 			PrivateDependencyModuleNames.Add("WindowsTargetPlatform");
-			
+
 		}
 		
 		
