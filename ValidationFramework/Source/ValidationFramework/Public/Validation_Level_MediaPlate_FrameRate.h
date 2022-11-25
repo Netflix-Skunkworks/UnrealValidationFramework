@@ -17,23 +17,24 @@ limitations under the License.
 #pragma once
 
 #include "CoreMinimal.h"
+#include "ImgMediaSource.h"
 #include "ValidationBase.h"
-#include "Validation_Project_DX12.generated.h"
+#include "Validation_Project_DX12.h"
+#include "Validation_Level_MediaPlate_FrameRate.generated.h"
 
 /**
-* Validation which checks that unreal is using DX12 for ICVFX workflows, whilst not critical for all workflows
-* It is a hard dependency for the EXR plate playback
+* Validation which checks to ensure that the level does not have a viewport driven fixed exposure, and ensures its using
+* what is driven in the level and or game settings
 */
 UCLASS()
-class VALIDATIONFRAMEWORK_API UValidation_Project_DX12 : public UValidationBase
+class VALIDATIONFRAMEWORK_API UValidation_Level_MediaPlate_FrameRate final : public UValidation_Project_DX12
 {
 	GENERATED_BODY()
-
 public:
-	UValidation_Project_DX12();
+	UValidation_Level_MediaPlate_FrameRate();
+	TArray<UImgMediaSource*> GetAllMediaSourcesFromLevel() const;
 	virtual FValidationResult Validation_Implementation() override;
-	virtual FValidationFixResult Fix_Implementation() override;
 	
+	virtual FValidationFixResult Fix_Implementation() override;
 };
-
 
