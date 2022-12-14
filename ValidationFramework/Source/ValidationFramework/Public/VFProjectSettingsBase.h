@@ -52,5 +52,5 @@ public:
 	* expected config, when validating other objects of settings within the project
 	*/
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "Validation Framework Settings")
-	UOpenColorIOConfiguration* ProjectOpenIOColorConfig;
+	FOpenColorIOColorConversionSettings ProjectOpenIOColorConfig;
 };
