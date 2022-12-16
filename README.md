@@ -1,7 +1,8 @@
 # Unreal Engine - VP Workflow Validation Framework
 ##### Supported Versions
 UE4.27+: Supported: :white_check_mark:\
-UE5.0+: Testing: :heavy_exclamation_mark:
+UE5.0: Testing: :heavy_exclamation_mark:
+UE5.1: Supported: :white_check_mark:\
 
 ## 1. Intro
 <img src="/docs/images/UI.png" alt="Validation UI">
@@ -248,6 +249,10 @@ For instance validations may want to know the frame rate for the production.
 Rather than have individual validations for each possible frame rate, we store this value as a project setting from which the validations can then refer too.
 
 Should a different project have different requirements the validations then do not need to change project to project.
+
+Similarly we also set a default OCIO Config which can be used to define the default source and destination color spaces
+
+By setting up the validation project settings, you will greatly improve the accuracy and effectivness of the validations
 
 ### 6.1 Setting Up Project Settings
 
