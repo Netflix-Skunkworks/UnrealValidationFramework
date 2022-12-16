@@ -14,13 +14,19 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
+
 #include "Validation_Level_NDisplay_OCIO.h"
 #include "Kismet/GameplayStatics.h"
+
+#if PLATFORM_WINDOWS || PLATFORM_LINUX
 #include "DisplayClusterRootActor.h"
 #include "DisplayClusterConfigurationTypes.h"
+#include "Components/DisplayClusterICVFXCameraComponent.h"
+#endif
+
 #include "ValidationBPLibrary.h"
 #include "VFProjectSettingsBase.h"
-#include "Components/DisplayClusterICVFXCameraComponent.h"
+
 
 
 UValidation_Level_NDisplay_OCIO::UValidation_Level_NDisplay_OCIO()
@@ -35,7 +41,7 @@ UValidation_Level_NDisplay_OCIO::UValidation_Level_NDisplay_OCIO()
 		EValidationWorkflow::VAD
 	};
 }
-
+#if PLATFORM_WINDOWS || PLATFORM_LINUX
 void UValidation_Level_NDisplay_OCIO::ValidateOCIOColorConversionSettings(
 	FValidationResult& ValidationResult,
 	const FOpenColorIOColorConversionSettings OCIOSettings1,
@@ -232,11 +238,12 @@ void UValidation_Level_NDisplay_OCIO::ValidateInnerFrustumOCIOPerNodeSetups(
 	}
 
 }
+#endif
 
 FValidationResult UValidation_Level_NDisplay_OCIO::Validation_Implementation()
 {
 	FValidationResult ValidationResult = FValidationResult(EValidationStatus::Pass, "");
-
+#if PLATFORM_WINDOWS || PLATFORM_LINUX
 	// Ensure we have validation framework settings configured in the project before continuing
 	// TODO: Refactor into function as used in a number of places
 	UObject* Settings = UValidationBPLibrary::GetValidationFrameworkProjectSettings();
@@ -289,7 +296,11 @@ FValidationResult UValidation_Level_NDisplay_OCIO::Validation_Implementation()
 	{
 		ValidationResult.Message = "Valid";
 	}
-	
+#else
+	ValidationResult.Result = EValidationStatus::Warning;
+	ValidationResult.Message = "NDisplay only supported on Linux and Windows"; 
+#endif
+
 	return ValidationResult;
 }
 
@@ -297,6 +308,7 @@ FValidationFixResult UValidation_Level_NDisplay_OCIO::Fix_Implementation()
 {
 
 	FValidationFixResult ValidationFixResult = FValidationFixResult();
+#if PLATFORM_WINDOWS || PLATFORM_LINUX
 	FValidationResult ValidationResult = Validation_Implementation();
 	if (ValidationResult.Result == EValidationStatus::Pass)
 	{
@@ -308,9 +320,14 @@ FValidationFixResult UValidation_Level_NDisplay_OCIO::Fix_Implementation()
 		ValidationFixResult.Result = EValidationFixStatus::ManualFix;
 		ValidationFixResult.Message = "Requires Manual Fix";
 	}
-
+#else
+	ValidationFixResult.Result = EValidationFixStatus::Fixed;
+	ValidationFixResult.Message = "Nothing To Fix";
+#endif
+	
 	return ValidationFixResult;
 }
+
 
 
 

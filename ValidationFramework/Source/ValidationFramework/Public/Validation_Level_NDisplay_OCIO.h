@@ -16,11 +16,16 @@ limitations under the License.
 
 #pragma once
 
+
 #include "CoreMinimal.h"
-#include "DisplayClusterConfigurationTypes_ICVFX.h"
 #include "OpenColorIOColorSpace.h"
 #include "ValidationBase.h"
+
+#if PLATFORM_WINDOWS || PLATFORM_LINUX
+#include "DisplayClusterConfigurationTypes_ICVFX.h"
 #include "Components/DisplayClusterICVFXCameraComponent.h"
+#endif
+
 #include "Validation_Level_NDisplay_OCIO.generated.h"
 
 /**
@@ -33,7 +38,7 @@ class VALIDATIONFRAMEWORK_API UValidation_Level_NDisplay_OCIO final : public UVa
 	GENERATED_BODY()
 public:
 	UValidation_Level_NDisplay_OCIO();
-
+#if PLATFORM_WINDOWS || PLATFORM_LINUX
 	/**
 	* Compares two OCIO Color Conversion Settings and validates them to make
 	* sure they are the same, comparing the source assets and the color spaces are also matching between source and
@@ -95,7 +100,7 @@ public:
 										FOpenColorIOColorConversionSettings ProjectOCIOSettings,
 										FString ComponentName,
 										FDisplayClusterConfigurationICVFX_CameraSettings Icvfx_CameraSettings);
-
+#endif
 	virtual FValidationResult Validation_Implementation() override;
 	
 	virtual FValidationFixResult Fix_Implementation() override;
