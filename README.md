@@ -1,8 +1,8 @@
 # Unreal Engine - VP Workflow Validation Framework
 ##### Supported Versions
-UE4.27+: Supported: :white_check_mark:\
-UE5.0: Testing: :heavy_exclamation_mark:
-UE5.1: Supported: :white_check_mark:\
+UE4.27+: Supported v1.0.1 Only: :white_check_mark:\
+UE5.0: Testing: :heavy_exclamation_mark:\
+UE5.1: Supported v1.1.0+: :white_check_mark:
 
 ## 1. Intro
 <img src="/docs/images/UI.png" alt="Validation UI">
