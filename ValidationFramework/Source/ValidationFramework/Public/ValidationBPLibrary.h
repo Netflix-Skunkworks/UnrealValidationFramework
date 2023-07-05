@@ -28,7 +28,7 @@ limitations under the License.
 * 
 */
 UCLASS()
-class UValidationBPLibrary final : public UBlueprintFunctionLibrary
+class VALIDATIONFRAMEWORK_API UValidationBPLibrary final : public UBlueprintFunctionLibrary
 {
 	GENERATED_UCLASS_BODY()
 
