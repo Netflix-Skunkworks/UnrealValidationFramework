@@ -96,16 +96,17 @@ void UValidation_Level_NDisplay_OCIO::ValidateAllViewportOCIOSetups(
 	const FOpenColorIOColorConversionSettings ProjectOCIOSettings,
 	FString OCIOObjectName, const FDisplayClusterConfigurationICVFX_StageSettings StageSettings)
 {
-	if (!StageSettings.bUseOverallClusterOCIOConfiguration)
+	
+	if (!StageSettings.ViewportOCIO.AllViewportsOCIOConfiguration.bIsEnabled)
 	{
 		ValidationResult.Result = EValidationStatus::Fail;
 		ValidationResult.Message += OCIOObjectName +"\nUse OCIO Config For All Viewports Not Enabled\n";
 	}
 		
 	FOpenColorIOColorConversionSettings AllViewPortsOCIOSettings = StageSettings.
-	                                                                AllViewportsOCIOConfiguration.
-	                                                                OCIOConfiguration.
-	                                                                ColorConfiguration;
+		ViewportOCIO.
+		AllViewportsOCIOConfiguration.
+		ColorConfiguration;
 		
 	if (!AllViewPortsOCIOSettings.IsValid())
 	{
@@ -118,6 +119,7 @@ void UValidation_Level_NDisplay_OCIO::ValidateAllViewportOCIOSetups(
 		ValidateOCIOColorConversionSettings(
 			ValidationResult, ProjectOCIOSettings, AllViewPortsOCIOSettings, OCIOObjectName);
 	}
+	
 		
 	
 }
@@ -126,15 +128,15 @@ void UValidation_Level_NDisplay_OCIO::ValidatePerViewportOCIOOverrideSetups(
 	FValidationResult& ValidationResult, const FOpenColorIOColorConversionSettings ProjectOCIOSettings,
 	FString OCIOObjectName, const FDisplayClusterConfigurationICVFX_StageSettings StageSettings)
 {
-	for (int Viewport_Idx = 0; Viewport_Idx < StageSettings.PerViewportOCIOProfiles.Num(); Viewport_Idx++)
+	
+	for (int Viewport_Idx = 0; Viewport_Idx < StageSettings.ViewportOCIO.PerViewportOCIOProfiles.Num(); Viewport_Idx++)
 	{
 		
-		if (StageSettings.PerViewportOCIOProfiles[Viewport_Idx].bIsEnabled)
+		if (StageSettings.ViewportOCIO.PerViewportOCIOProfiles[Viewport_Idx].bIsEnabled)
 		{
 				
-			FOpenColorIOColorConversionSettings PerViewPortOCIOSettings = StageSettings.
+			FOpenColorIOColorConversionSettings PerViewPortOCIOSettings = StageSettings.ViewportOCIO.
 			                                                              PerViewportOCIOProfiles[Viewport_Idx].
-			                                                              OCIOConfiguration.
 			                                                              ColorConfiguration;
 
 			if (!PerViewPortOCIOSettings.IsValid())
@@ -151,6 +153,26 @@ void UValidation_Level_NDisplay_OCIO::ValidatePerViewportOCIOOverrideSetups(
 				ValidateOCIOColorConversionSettings(ValidationResult, ProjectOCIOSettings,
 					PerViewPortOCIOSettings, OCIOObjectName, false);
 			}
+
+			if (!StageSettings.ViewportOCIO.PerViewportOCIOProfiles[Viewport_Idx].ApplyOCIOToObjects.Num())
+			{
+				ValidationResult.Result = EValidationStatus::Warning;
+				ValidationResult.Message += "\nPer Viewports OCIO Config Index " + FString::FromInt(Viewport_Idx) + " Is Applied No Viewports Are Set To Be Applied Too";
+
+			}
+			
+			for (int PerViewPortOCIO_Idx = 0; PerViewPortOCIO_Idx < StageSettings.ViewportOCIO.PerViewportOCIOProfiles[Viewport_Idx].ApplyOCIOToObjects.Num(); PerViewPortOCIO_Idx++)
+			{
+				FString ViewportName = StageSettings.ViewportOCIO.PerViewportOCIOProfiles[Viewport_Idx].ApplyOCIOToObjects[PerViewPortOCIO_Idx];
+				if (ViewportName.IsEmpty())
+				{
+					ValidationResult.Result = EValidationStatus::Warning;
+					ValidationResult.Message += "\nPer Viewports OCIO Config Index " + FString::FromInt(Viewport_Idx) + " Is Applied But Viewport " + FString::FromInt(PerViewPortOCIO_Idx) + " Is Not Sepcified";
+
+				}
+
+			}		
+
 		}
 		else
 		{
@@ -164,20 +186,22 @@ void UValidation_Level_NDisplay_OCIO::ValidatePerViewportOCIOOverrideSetups(
 				
 		}
 	}
+	
 }
 
 void UValidation_Level_NDisplay_OCIO::ValidateInnerFrustumOCIOSetups(
 	FValidationResult& ValidationResult, const FOpenColorIOColorConversionSettings ProjectOCIOSettings,
 	FString ComponentName, FDisplayClusterConfigurationICVFX_CameraSettings Icvfx_CameraSettings)
 {
-	if (!Icvfx_CameraSettings.AllNodesOCIOConfiguration.bIsEnabled)
+	
+	if (!Icvfx_CameraSettings.CameraOCIO.AllNodesOCIOConfiguration.bIsEnabled)
 	{
 		ValidationResult.Result = EValidationStatus::Fail;
 		ValidationResult.Message += ComponentName + "\nInner Frustum OCIO Is Not Enabled\n";
 	}
 	FOpenColorIOColorConversionSettings InnerFrustumOCIOConfig = Icvfx_CameraSettings
+		.CameraOCIO
 		.AllNodesOCIOConfiguration
-		.OCIOConfiguration
 		.ColorConfiguration;
 			
 	if (!InnerFrustumOCIOConfig.IsValid())
@@ -191,6 +215,7 @@ void UValidation_Level_NDisplay_OCIO::ValidateInnerFrustumOCIOSetups(
 		ValidateOCIOColorConversionSettings(ValidationResult, ProjectOCIOSettings,
 			InnerFrustumOCIOConfig, ComponentName);
 	}
+	
 }
 
 void UValidation_Level_NDisplay_OCIO::ValidateInnerFrustumOCIOPerNodeSetups(
@@ -198,9 +223,10 @@ void UValidation_Level_NDisplay_OCIO::ValidateInnerFrustumOCIOPerNodeSetups(
 	const FOpenColorIOColorConversionSettings ProjectOCIOSettings,
 	FString ComponentName, FDisplayClusterConfigurationICVFX_CameraSettings Icvfx_CameraSettings)
 {
-	for (int PerNodeIndex = 0; PerNodeIndex < Icvfx_CameraSettings.PerNodeOCIOProfiles.Num(); PerNodeIndex++)
+	
+	for (int PerNodeIndex = 0; PerNodeIndex < Icvfx_CameraSettings.CameraOCIO.PerNodeOCIOProfiles.Num(); PerNodeIndex++)
 	{
-		if(!Icvfx_CameraSettings.PerNodeOCIOProfiles[PerNodeIndex].bIsEnabled)
+		if(!Icvfx_CameraSettings.CameraOCIO.PerNodeOCIOProfiles[PerNodeIndex].bIsEnabled)
 		{
 			if(ValidationResult.Result > EValidationStatus::Warning)
 			{
@@ -209,12 +235,39 @@ void UValidation_Level_NDisplay_OCIO::ValidateInnerFrustumOCIOPerNodeSetups(
 			ValidationResult.Message += ComponentName + "\nInner Frustum OCIO Per Node Config " +
 				FString::FromInt(PerNodeIndex) + 
 				" Exists But Is Not Enabled\n";
+
 		}
 		else
 		{
+			
+			int Result = Icvfx_CameraSettings.CameraOCIO.PerNodeOCIOProfiles[PerNodeIndex].ApplyOCIOToObjects.Num();
+			if (!Result)
+			{
+				ValidationResult.Result = EValidationStatus::Warning;
+				ValidationResult.Message += ComponentName + "\nInner Frustum OCIO Per Node Config " +
+					FString::FromInt(PerNodeIndex) +
+					" Exists But Has No Viewports Applied\n";
+
+			}
+
+			for (int PerViewport_Idx = 0; PerViewport_Idx < Icvfx_CameraSettings.CameraOCIO.PerNodeOCIOProfiles[PerNodeIndex].ApplyOCIOToObjects.Num(); PerViewport_Idx++)
+			{
+				FString ViewportName = Icvfx_CameraSettings.CameraOCIO.PerNodeOCIOProfiles[PerNodeIndex].ApplyOCIOToObjects[PerViewport_Idx];
+				if (ViewportName.IsEmpty())
+				{
+					
+					ValidationResult.Result = EValidationStatus::Warning;
+					ValidationResult.Message += ComponentName + "\nInner Frustum OCIO Per Node Config " +
+						FString::FromInt(PerNodeIndex) +
+						" Exists But, Node " + FString::FromInt(PerViewport_Idx) + " Has No Viewports Applied\n";
+
+				}
+
+			}
+
 			FOpenColorIOColorConversionSettings InnerFrustumPerNodeOCIOConfig = Icvfx_CameraSettings
+			.CameraOCIO
 			.PerNodeOCIOProfiles[PerNodeIndex]
-			.OCIOConfiguration
 			.ColorConfiguration;
 
 			if (!InnerFrustumPerNodeOCIOConfig.IsValid())
@@ -236,6 +289,7 @@ void UValidation_Level_NDisplay_OCIO::ValidateInnerFrustumOCIOPerNodeSetups(
 		}
 		
 	}
+
 
 }
 #endif
