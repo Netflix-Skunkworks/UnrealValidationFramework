@@ -1,11 +1,11 @@
 {
 	"FileVersion": 3,
 	"Version": 1,
-	"VersionName": "1.1.0",
+	"VersionName": "1.2.0",
 	"FriendlyName": "ValidationFramework",
 	"Description": "The Validation Framework provides a toolkit for implementing custom validations targeted towards specific workflows. This includes the detecting and automatic fixing of known issues for workflows around virtual production.Custom workflows & validation checks and fixes can be implemented as needed.Validations can be executed via UI during productions or on set as well as via command line as part of CI/CD build pipelines",
 	"Category": "Netflix",
-	"CreatedBy": "Adam Davis - Netflix Creative Technology",
+	"CreatedBy": "Adam Davis - Netflix Production Technology & Operations",
 	"CreatedByURL": "",
 	"DocsURL": "",
 	"MarketplaceURL": "",
@@ -13,6 +13,7 @@
 	"CanContainContent": true,
 	"IsBetaVersion": false,
 	"IsExperimentalVersion": false,
+	"EngineVersion":  "5.2.0",
 	"Installed": false,
 	"Modules": [
 		{
