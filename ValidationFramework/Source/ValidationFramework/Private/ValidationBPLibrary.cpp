@@ -481,7 +481,22 @@ bool UValidationBPLibrary::MarkCurrentLevelDirty()
 	if (Level)
 	{
 		Success = Level->MarkPackageDirty();
+		
+		const TArray<ULevelStreaming*>& StreamingLevels = World->GetStreamingLevels();
+		for (ULevelStreaming* LevelStreaming : StreamingLevels)
+		{
+			if (LevelStreaming != nullptr)
+			{
+				ULevel* SubLevel = LevelStreaming->GetLoadedLevel();
+				if (SubLevel != nullptr)
+				{
+					Success = SubLevel->MarkPackageDirty();
+				}
+			}
+		}
 	}
+
+	
 	return Success;
 }
 
