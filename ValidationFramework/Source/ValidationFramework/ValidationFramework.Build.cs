@@ -52,6 +52,7 @@ public class ValidationFramework : ModuleRules
 			PrivateDependencyModuleNames.Add("DisplayCluster");
 			PrivateDependencyModuleNames.Add("DisplayClusterConfiguration");
 			PrivateDependencyModuleNames.Add("WindowsTargetPlatform");
+			PrivateDependencyModuleNames.Add("CinematicCamera");
 
 		}
 		
