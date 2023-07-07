@@ -282,7 +282,7 @@ class VALIDATIONFRAMEWORK_API UValidationBPLibrary final : public UBlueprintFunc
 		FString ObjectName, FPostProcessSettings Settings, FValidationFixResult& FixResult);
 
 	/**
-	* Helper function to mark the current open levels as dirty at the end of validation fixes
+	* Helper function to mark the current open levels as dirty at the end of validation fixes, it also marks sublevels as dirty
 	* @return whether the operation was a success or not
 	*/
 	UFUNCTION(BlueprintCallable, Category="ValidationBPLibrary")

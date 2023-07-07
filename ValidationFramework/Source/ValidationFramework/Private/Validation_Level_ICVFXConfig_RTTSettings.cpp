@@ -23,7 +23,7 @@ limitations under the License.
 #endif
 
 #define ASPECT_RATIO_TOLERANCE 0.09f
-#define TEXT_UNDO_CAT "VP Validation/ICVFX"
+
 
 UValidation_Level_ICVFX_RTTSettings::UValidation_Level_ICVFX_RTTSettings()
 {
@@ -209,7 +209,7 @@ void UValidation_Level_ICVFX_RTTSettings::FixICVFXAspectRatio(
 		int const TargetHeight = FMath::FloorToFloat(static_cast<float>(IcvfxCamera->CameraSettings.RenderSettings.CustomFrameSize.CustomWidth) / CineCamera_AR);
 	
 		//Begin the editor transaction
-		GEngine->BeginTransaction(*FString(TEXT(TEXT_UNDO_CAT)), FText::FromString(TEXT("Correct ICVFX aspect ratio")), DisplayClusterRoot);
+		GEngine->BeginTransaction(*FString(TEXT(VALIDATION_FRAMEWORK_UNDO_CAT)), FText::FromString(TEXT("Correct ICVFX aspect ratio")), DisplayClusterRoot);
 			IcvfxCamera->Modify();
 			IcvfxCamera->CameraSettings.RenderSettings.CustomFrameSize.bUseCustomSize = true;
 			IcvfxCamera->CameraSettings.RenderSettings.CustomFrameSize.CustomHeight = TargetHeight;
