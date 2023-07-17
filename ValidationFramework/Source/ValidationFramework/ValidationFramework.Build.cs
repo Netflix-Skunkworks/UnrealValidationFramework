@@ -42,7 +42,7 @@ public class ValidationFramework : ModuleRules
 				"TimeManagement",
 				"SlateCore", "EditorScriptingUtilities", "UMG", "EngineSettings", "UMGEditor", 
 				"LevelSequence", "SettingsEditor", "SettingsEditor", "MediaPlate", "MediaAssets", "MediaUtils", 
-				"ImgMedia",
+				"ImgMedia","MovieScene",
 				// ... add private dependencies that you statically link with here ...	
 			}
 			);
