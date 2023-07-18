@@ -208,8 +208,10 @@ void UValidation_Level_ICVFX_RTTSettings::FixICVFXAspectRatio(
 	{
 		int const TargetHeight = FMath::FloorToFloat(static_cast<float>(IcvfxCamera->CameraSettings.RenderSettings.CustomFrameSize.CustomWidth) / CineCamera_AR);
 	
+		
+		FString UndoContextName = ValidationUndoContextName();
 		//Begin the editor transaction
-		GEngine->BeginTransaction(*FString(TEXT(VALIDATION_FRAMEWORK_UNDO_CAT)), FText::FromString(TEXT("Correct ICVFX aspect ratio")), DisplayClusterRoot);
+		GEngine->BeginTransaction(*UndoContextName, FText::FromString(ValidationDescription), DisplayClusterRoot);
 			IcvfxCamera->Modify();
 			IcvfxCamera->CameraSettings.RenderSettings.CustomFrameSize.bUseCustomSize = true;
 			IcvfxCamera->CameraSettings.RenderSettings.CustomFrameSize.CustomHeight = TargetHeight;

@@ -51,7 +51,7 @@ public:
 		const ACineCameraActor* TargetCineCamera,
 		const UDisplayClusterICVFXCameraComponent* IcvfxCamera);
 
-	static void FixICVFXAspectRatio(
+	void FixICVFXAspectRatio(
 		FValidationFixResult& ValidationFixResult,
 		FString& Result,
 		UDisplayClusterICVFXCameraComponent* IcvfxCamera,
