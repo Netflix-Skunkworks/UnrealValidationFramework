@@ -118,5 +118,12 @@ public:
 	*/
 	UFUNCTION(BlueprintCallable,  Category="ValidationBPLibrary")
 	static UWorld* GetCorrectValidationWorld();
+
+	/**
+	* Gets the name of the undo context for the given validation
+	* @return An FString of the name to use for the undo or transaction contexts
+	*/
+	UFUNCTION(BlueprintCallable, Category = "ValidationBPLibrary")
+	FString ValidationUndoContextName();
 	
 };

@@ -19,6 +19,8 @@ limitations under the License.
 #include "CoreMinimal.h"
 #include "ValidationCommon.generated.h"
 
+#define VALIDATION_FRAMEWORK_UNDO_CAT "Validation_Framework_Undo"
+
 /**
 * A range of general usage structs, enums and classes used as foundational building blocks within the wider framework
 */

@@ -19,8 +19,6 @@ limitations under the License.
 #include "CoreMinimal.h"
 #include "Styling/SlateStyle.h"
 
-#define VALIDATION_FRAMEWORK_UNDO_CAT "ValidationFramework"
-
 
 class FValidationFrameworkModule final: public IModuleInterface
 {

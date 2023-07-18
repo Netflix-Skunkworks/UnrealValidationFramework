@@ -19,6 +19,7 @@ limitations under the License.
 
 #include "Editor.h"
 
+
 UValidationBase::UValidationBase()
 {
 }
@@ -53,6 +54,7 @@ UWorld* UValidationBase::GetCorrectValidationWorld()
 	return GEditor ? GEditor->GetEditorWorldContext(false).World() : nullptr;
 }
 
-
-
-
+FString UValidationBase::ValidationUndoContextName()
+{
+	return FString(TEXT(VALIDATION_FRAMEWORK_UNDO_CAT)) + "_" + ValidationName;
+}
