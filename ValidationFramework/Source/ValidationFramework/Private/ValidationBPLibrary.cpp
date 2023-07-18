@@ -1253,14 +1253,16 @@ FValidationResult UValidationBPLibrary::ValidateSequencesAgainstFrameRate( const
 		{
 			ActorValidationResult.Result = EValidationStatus::Fail;
 			ActorValidationResult.Message = FoundActor->GetName() + " frame rate "
-				+ FString::FromInt(SequenceRate.Numerator) + " does not match the project frame rate "
+				+ FString::FromInt(SequenceRate.Numerator) + " does not match the project frame rate\n"
 				+ FString::FromInt(Rate.Numerator);
 			
 		}
 		if (RateComparison == EFrameRateComparisonStatus::ValidMultiple)
 		{
 			ActorValidationResult.Result = EValidationStatus::Warning;
-			ActorValidationResult.Message += " but is a valid multiple, please check this is expected";
+			ActorValidationResult.Message = FoundActor->GetName() + " frame rate "
+				+ FString::FromInt(SequenceRate.Numerator) + " does not match the project frame rate\n"
+				+ FString::FromInt(Rate.Numerator) + " but is a valid multiple, please check this is expected\n";
 		}
 
 		if (ActorValidationResult.Result < ValidationResult.Result)
@@ -1312,7 +1314,11 @@ FValidationFixResult UValidationBPLibrary::FixSequencesAgainstFrameRate( const U
 		// left for manual inspection as its not a valid multiple
 		if (ActorValidationFixResult.Result == EValidationFixStatus::NotFixed)
 		{
-			LevelSequence->MovieScene->SetDisplayRate(Rate);
+			FString UndoContextName = FString(TEXT(VALIDATION_FRAMEWORK_UNDO_CAT)) + "_FixSequencesAgainstFrameRate";
+			GEngine->BeginTransaction(*UndoContextName, FText::FromString("Sets The Display Rate"), LevelSequence);
+				LevelSequence->Modify();
+				LevelSequence->MovieScene->SetDisplayRate(Rate);
+			GEngine->EndTransaction();
 			ActorValidationFixResult.Message += LevelSequence->GetName() + " Set Frame Rate To " +
 				FString::FromInt(Rate.Numerator);
 		}
