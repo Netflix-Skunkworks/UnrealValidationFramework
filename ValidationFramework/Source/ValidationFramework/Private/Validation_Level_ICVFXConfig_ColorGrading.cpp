@@ -359,12 +359,16 @@ FValidationFixResult UValidation_Level_ICVFXConfig_ColorGrading::Fix_Implementat
 		
 		UDisplayClusterConfigurationData* ConfigData = MyActor->GetConfigData();
 		
-		FDisplayClusterConfigurationICVFX_StageSettings StageSettings = ConfigData->StageSettings;
-		FixEntireClusterColorGrading(ActorMessages, StageSettings);
-		FixPerViewportColorGrading(ActorMessages, StageSettings);
-		FixInnerFrustumColorGrading(ValidationFixResult, ActorMessages, MyActor);
+		GEngine->BeginTransaction(*ValidationUndoContextName(), FText::FromString(ValidationDescription), ConfigData);
+			ConfigData->Modify();
+
+			FDisplayClusterConfigurationICVFX_StageSettings StageSettings = ConfigData->StageSettings;
+			FixEntireClusterColorGrading(ActorMessages, StageSettings);
+			FixPerViewportColorGrading(ActorMessages, StageSettings);
+			FixInnerFrustumColorGrading(ValidationFixResult, ActorMessages, MyActor);
 		
-		ConfigData->StageSettings = StageSettings;
+			ConfigData->StageSettings = StageSettings;
+		GEngine->EndTransaction();
 		
 		if (ActorMessages.Len())
 		{
