@@ -17,9 +17,9 @@ limitations under the License.
 #pragma once
 #include "CoreMinimal.h"
 #include "ValidationBase.h"
-#include "Components/DisplayClusterICVFXCameraComponent.h"
 
 #if PLATFORM_WINDOWS || PLATFORM_LINUX
+#include "Components/DisplayClusterICVFXCameraComponent.h"
 #include "DisplayClusterConfigurationTypes_ICVFX.h"
 #include "DisplayClusterRootActor.h"
 #include "CineCameraActor.h"
