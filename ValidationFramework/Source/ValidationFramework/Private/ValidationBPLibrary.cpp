@@ -1057,6 +1057,116 @@ FPostProcessSettings UValidationBPLibrary::FixPostProcessChromaticAberrationSett
 	return Settings;
 }
 
+FValidationResult UValidationBPLibrary::ValidatePostProcessLocalExposureSettings(const FString ObjectName, const FPostProcessSettings Settings)
+{
+	FValidationResult ValidationResult = FValidationResult(EValidationStatus::Pass, "");
+	FString Message = "";
+	
+	if (Settings.bOverride_LocalExposureHighlightContrastScale || Settings.LocalExposureHighlightContrastScale != 1.0f)
+	{
+		ValidationResult.Result = EValidationStatus::Fail;
+		Message += "Local Exposure Highlight Contrast Scale Is Enabled Or/& Not Set To 1.0\n";
+	}
+	
+	if (Settings.bOverride_LocalExposureShadowContrastScale || Settings.LocalExposureShadowContrastScale != 1.0f)
+	{
+		ValidationResult.Result = EValidationStatus::Fail;
+		Message += "Local Exposure Shadow Contrast Scale Is Enabled Or/& Not Set To 1.0\n";
+	}
+	
+	if(Settings.bOverride_LocalExposureDetailStrength || Settings.LocalExposureDetailStrength != 1.0f)
+	{
+		ValidationResult.Result = EValidationStatus::Fail;
+		Message += "Local Exposure Detail Strength Is Enabled Or/& Not Set To 1.0\n";
+	}
+	
+	if(Settings.bOverride_LocalExposureBlurredLuminanceBlend || Settings.LocalExposureBlurredLuminanceBlend != 0.6f)
+	{
+		ValidationResult.Result = EValidationStatus::Fail;
+		Message += "Local Exposure Blurred Luminance Blend Is Enabled Or/& Not Set To 0.6\n";
+	}
+	
+	if(Settings.bOverride_LocalExposureBlurredLuminanceKernelSizePercent || Settings.LocalExposureBlurredLuminanceKernelSizePercent != 50.0f)
+	{
+		ValidationResult.Result = EValidationStatus::Fail;
+		Message += "Local Exposure Blurred Luminance Kernel Size Percent Is Enabled Or/& Not Set To 50.0\n";
+	}
+	
+	if(Settings.bOverride_LocalExposureMiddleGreyBias || Settings.LocalExposureMiddleGreyBias != 0.0f)
+	{
+		ValidationResult.Result = EValidationStatus::Fail;
+		Message += "Local Exposure Middle Grey Bias Is Enabled Or/& Not Set To 0.0\n";
+	}
+
+	if (ValidationResult.Result == EValidationStatus::Pass)
+	{
+		ValidationResult.Message = "Valid";
+	}
+	else
+	{
+		ValidationResult.Message = ObjectName + "\n" + Message;
+	}
+	
+	return ValidationResult;
+}
+
+FPostProcessSettings UValidationBPLibrary::FixPostProcessLocalExposureSettings(FString ObjectName, FPostProcessSettings Settings, FValidationFixResult& FixResult)
+{
+	FixResult.Result = EValidationFixStatus::NotFixed;
+	FString Message = "";
+
+	if (Settings.bOverride_LocalExposureHighlightContrastScale || Settings.LocalExposureHighlightContrastScale != 1.0)
+	{
+		FixResult.Result = EValidationFixStatus::Fixed;
+		Settings.bOverride_LocalExposureHighlightContrastScale = false;
+		Settings.LocalExposureHighlightContrastScale = 1.0;
+		Message += "Set Exposure Highlight Contrast Scale To Disabled & Set To 1.0\n";
+	}
+	
+	if (Settings.bOverride_LocalExposureShadowContrastScale || Settings.LocalExposureShadowContrastScale != 1.0)
+	{
+		FixResult.Result = EValidationFixStatus::Fixed;
+		Settings.bOverride_LocalExposureShadowContrastScale = false;
+		Settings.LocalExposureShadowContrastScale = 1.0;
+		Message += "Set Local Exposure Shadow Contrast Scale To Disabled & Set To 1.0\n";
+	}
+	
+	if(Settings.bOverride_LocalExposureDetailStrength || Settings.LocalExposureDetailStrength != 1.0f)
+	{
+		FixResult.Result = EValidationFixStatus::Fixed;
+		Settings.bOverride_LocalExposureDetailStrength = false;
+		Settings.LocalExposureDetailStrength = 1.0;
+		Message += "Set Local Exposure Detail Strength To Disabled & Set To 1.0\n";
+	}
+	
+	if(Settings.bOverride_LocalExposureBlurredLuminanceBlend || Settings.LocalExposureBlurredLuminanceBlend != 0.6f)
+	{
+		FixResult.Result = EValidationFixStatus::Fixed;
+		Settings.bOverride_LocalExposureBlurredLuminanceBlend = false;
+		Settings.LocalExposureBlurredLuminanceBlend = 0.6;
+		Message += "Set Local Exposure Blurred Luminance Blend To Disabled & Set To 0.6\n";
+	}
+	
+	if(Settings.bOverride_LocalExposureBlurredLuminanceKernelSizePercent || Settings.LocalExposureBlurredLuminanceKernelSizePercent != 50.0f)
+	{
+		FixResult.Result = EValidationFixStatus::Fixed;
+		Settings.bOverride_LocalExposureBlurredLuminanceKernelSizePercent = false;
+		Settings.LocalExposureBlurredLuminanceKernelSizePercent = 50.0;
+		Message += "Set Local Exposure Blurred Luminance Kernel Size Percent To Disabled & Set To 50.0\n";
+	}
+	
+	if(Settings.bOverride_LocalExposureMiddleGreyBias || Settings.LocalExposureMiddleGreyBias != 0.0f)
+	{
+		FixResult.Result = EValidationFixStatus::Fixed;
+		Settings.bOverride_LocalExposureMiddleGreyBias = false;
+		Settings.LocalExposureMiddleGreyBias = 0.0;
+		Message += "Set Local Exposure Middle Grey Bias To Disabled & Set To 0.0\n";
+	}
+	
+	FixResult.Message = Message;
+	return Settings;
+}
+
 FValidationResult UValidationBPLibrary::NDisplayMeshSettingsValidation(
 	const UWorld* World,
 	const TFunction<EValidationStatus(UStaticMesh* StaticMesh, const int LodIndex, FString& Message)> InputValidationFunction)
