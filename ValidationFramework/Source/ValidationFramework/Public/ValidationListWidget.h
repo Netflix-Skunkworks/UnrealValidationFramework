@@ -17,7 +17,7 @@ limitations under the License.
 #pragma once
 
 #include "CoreMinimal.h"
-#include "UMG/Public/Blueprint/UserWidget.h"
+#include "Blueprint/UserWidget.h"
 #include "ValidationListWidget.generated.h"
 
 /**
