@@ -142,8 +142,8 @@ FValidationFixResult UValidation_Level_ICVFX_RTTSettings::Fix_Implementation()
 #endif
 
 #if PLATFORM_MAC	
-	FValidationFixResult ValidationResult = FValidationResult();
-	ValidationResult.Result = EValidationStatus::Warning;
+	FValidationFixResult ValidationResult = FValidationFixResult();
+	ValidationResult.Result = EValidationFixStatus::NotFixed;
 	ValidationResult.Message = "Ndisplay Validations Not Valid On OSX";
 	return ValidationResult;
 #endif

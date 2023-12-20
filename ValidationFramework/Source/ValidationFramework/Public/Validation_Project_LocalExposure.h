@@ -17,14 +17,20 @@ limitations under the License.
 #pragma once
 
 #include "CoreMinimal.h"
-#include "Blueprint/UserWidget.h"
-#include "ValidationListWidget.generated.h"
+#include "ValidationBase.h"
+#include "Validation_Project_LocalExposure.generated.h"
 
 /**
- * A simple base class we can use to extend via blueprint to build out the lists of validations which we want to execute
+* Validation which handles ensuring that no local exposure settings are being used during ICVFX as this is
+* as this breaks the linear lighting pipelines
 */
 UCLASS()
-class VALIDATIONFRAMEWORK_API UValidationListWidget final: public UUserWidget
+class VALIDATIONFRAMEWORK_API UValidation_Project_LocalExposure : public UValidationBase
 {
 	GENERATED_BODY()
+
+public:
+	UValidation_Project_LocalExposure();
+	virtual FValidationResult Validation_Implementation() override;
+	virtual FValidationFixResult Fix_Implementation() override;
 };

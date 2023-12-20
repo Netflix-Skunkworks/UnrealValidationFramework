@@ -282,6 +282,27 @@ class VALIDATIONFRAMEWORK_API UValidationBPLibrary final : public UBlueprintFunc
 		FString ObjectName, FPostProcessSettings Settings, FValidationFixResult& FixResult);
 
 	/**
+	* Validates the local exposure settings for the given post process settings for ICVFX workflows
+	* @param ObjectName - The name of the UObject which the settings relate too
+	* @param Settings - The postprocessing settings we want to correct the settings within
+	* @return Returns ValidationResult for these post process settings
+	*/
+	UFUNCTION(BlueprintCallable, Category="ValidationBPLibrary")
+	static FValidationResult ValidatePostProcessLocalExposureSettings(
+		const FString ObjectName, const FPostProcessSettings Settings);
+
+	/**
+	* Fixes the local exposure settings for the given post process settings for ICVFX workflows
+	* @param ObjectName - The name of the UObject which the settings relate too
+	* @param Settings - The postprocessing settings we want to correct the settings within
+	* @param FixResult - The results of the fix to ensure it was a success etc
+	* @return Returns the fixed and updated post process settings
+	*/
+	UFUNCTION(BlueprintCallable, Category="ValidationBPLibrary")
+	static FPostProcessSettings FixPostProcessLocalExposureSettings(
+		FString ObjectName, FPostProcessSettings Settings, FValidationFixResult& FixResult);
+
+	/**
 	* Helper function to mark the current open levels as dirty at the end of validation fixes, it also marks sublevels as dirty
 	* @return whether the operation was a success or not
 	*/
