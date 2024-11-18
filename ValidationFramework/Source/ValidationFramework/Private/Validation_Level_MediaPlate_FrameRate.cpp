@@ -55,7 +55,7 @@ TArray<UImgMediaSource*> UValidation_Level_MediaPlate_FrameRate::GetAllMediaSour
 		MediaPlateActor->GetComponents(MediaPlateComponents);
 		for (const UMediaPlateComponent* MediaPlateComponent : MediaPlateComponents)
 		{
-			const TObjectPtr<UMediaPlaylist> MediaPlaylist = MediaPlateComponent->MediaPlaylist;
+			const TObjectPtr<UMediaPlaylist> MediaPlaylist = MediaPlateComponent->GetMediaPlaylist();
 			for (int i = 0; i < MediaPlaylist->Num(); i++)
 			{
 				UMediaSource* MediaSource = MediaPlaylist->Get(i);
