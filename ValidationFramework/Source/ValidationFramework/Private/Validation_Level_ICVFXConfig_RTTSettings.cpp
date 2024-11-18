@@ -65,7 +65,7 @@ FValidationResult UValidation_Level_ICVFX_RTTSettings::Validation_Implementation
 			{
 				if (IcvfxCameraComponent)
 				{
-					if (ACineCameraActor* IcvfxCineCameraActor = Cast<ACineCameraActor>(IcvfxCameraComponent->GetCameraComponent()->GetAttachParentActor()))
+					if (ACineCameraActor* IcvfxCineCameraActor = Cast<ACineCameraActor>(IcvfxCameraComponent->GetActualCineCameraComponent()->GetAttachParentActor()))
 					{
 						ValidateICVFXAspectRatio(ValidationResult,ActorMessages, IcvfxCineCameraActor,IcvfxCameraComponent);
 					}
@@ -117,10 +117,10 @@ FValidationFixResult UValidation_Level_ICVFX_RTTSettings::Fix_Implementation()
 			NDCRootActor->GetComponents<UDisplayClusterICVFXCameraComponent>(ICVFXComponentList);
 			for (UDisplayClusterICVFXCameraComponent* IcvfxCameraComponent : ICVFXComponentList)
 			{
-				UCameraComponent* IcvfxCineCamera = IcvfxCameraComponent->GetCameraComponent();
+				UCameraComponent* IcvfxCineCamera = IcvfxCameraComponent->GetActualCineCameraComponent();
 				if (IcvfxCameraComponent)
 				{
-					if (ACineCameraActor* IcvfxCineCameraActor = Cast<ACineCameraActor>(IcvfxCameraComponent->GetCameraComponent()->GetAttachParentActor()))
+					if (ACineCameraActor* IcvfxCineCameraActor = Cast<ACineCameraActor>(IcvfxCameraComponent->GetActualCineCameraComponent()->GetAttachParentActor()))
 					{
 						FixICVFXAspectRatio(ValidationFixResult,ActorMessages,IcvfxCameraComponent,NDCRootActor,IcvfxCineCameraActor);
 					}

@@ -37,14 +37,14 @@ FValidationResult UValidation_Project_LocalExposure::Validation_Implementation()
 	FString Message = "";
 
 	const URendererSettings* Settings = GetMutableDefault<URendererSettings>();
-	const float DefaultLocalExposureHighlight = Settings->DefaultFeatureLocalExposureHighlightContrastScale;
+	const float DefaultLocalExposureHighlight = Settings->DefaultFeatureLocalExposureHighlightContrast;
 	if (DefaultLocalExposureHighlight != 1.0f)
 	{
 		ValidationResult.Result = EValidationStatus::Fail;
 		Message = "Local Exposure Highlight Is Not Set To 1, This Can Cause Issues With Linear Lighting\n";
 	}
 
-	const float DefaultLocalExposureShadow = Settings->DefaultFeatureLocalExposureShadowContrastScale;
+	const float DefaultLocalExposureShadow = Settings->DefaultFeatureLocalExposureShadowContrast;
 	if (DefaultLocalExposureShadow != 1.0f)
 	{
 		ValidationResult.Result = EValidationStatus::Fail;
@@ -66,17 +66,17 @@ FValidationFixResult UValidation_Project_LocalExposure::Fix_Implementation()
 	URendererSettings* Settings = GetMutableDefault<URendererSettings>();
 	FString Message = "";
 
-	const float DefaultLocalExposureHighlight = Settings->DefaultFeatureLocalExposureHighlightContrastScale;
+	const float DefaultLocalExposureHighlight = Settings->DefaultFeatureLocalExposureHighlightContrast;
 	if (DefaultLocalExposureHighlight != 1.0f)
 	{
-		Settings->DefaultFeatureLocalExposureHighlightContrastScale = 1.0f;
+		Settings->DefaultFeatureLocalExposureHighlightContrast = 1.0f;
 		Message = "Set Local Exposure Highlight To 1, As This Can Cause Issues With Linear Lighting\n";
 	}
 
-	const float DefaultLocalExposureShadow = Settings->DefaultFeatureLocalExposureShadowContrastScale;
+	const float DefaultLocalExposureShadow = Settings->DefaultFeatureLocalExposureShadowContrast;
 	if (DefaultLocalExposureShadow != 1.0f)
 	{
-		Settings->DefaultFeatureLocalExposureShadowContrastScale = 1.0f;
+		Settings->DefaultFeatureLocalExposureShadowContrast = 1.0f;
 		Message += "Set Local Exposure Shadow To 1, This Can Cause Issues With Linear Lighting\n";
 	}
 	
