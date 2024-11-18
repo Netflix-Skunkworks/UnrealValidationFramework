@@ -5,7 +5,8 @@ UE5.0: Testing: :heavy_exclamation_mark:\
 UE5.1: Supported v1.1.0+: :white_check_mark: \
 UE5.2: Supported v1.2.0+: :white_check_mark: \
 UE5.3: Supported v1.3.0+: :white_check_mark: \
-UE5.4: Supported v1.4.0+: :white_check_mark:
+UE5.4: Supported v1.4.0+: :white_check_mark: \
+UE5.5: Supported v1.4.0+: :white_check_mark:
 
 ## 1. Intro
 <img src="/docs/images/UI.png" alt="Validation UI">
