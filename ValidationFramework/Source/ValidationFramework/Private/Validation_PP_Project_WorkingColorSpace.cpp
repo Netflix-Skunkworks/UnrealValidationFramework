@@ -42,7 +42,7 @@ FValidationResult UValidation_PP_Project_WorkingColorSpace::Validation_Implement
 	if (CurrentWorkingSpace != EWorkingColorSpace::ACESAP1)
 	{
 
-		UEnum* EnumPtr = FindObject<UEnum>(ANY_PACKAGE, TEXT("EWorkingColorSpace"), true);
+		UEnum* EnumPtr = StaticEnum<EWorkingColorSpace::Type>();
 		FText DisplayName = EnumPtr->GetDisplayNameTextByValue(static_cast<int64>(CurrentWorkingSpace));
 		FString CurrenColorSpace = DisplayName.ToString();
 		ValidationResult.Result = EValidationStatus::Warning;

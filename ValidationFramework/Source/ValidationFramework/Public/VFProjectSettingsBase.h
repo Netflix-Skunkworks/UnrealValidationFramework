@@ -16,7 +16,9 @@ limitations under the License.
 
 #pragma once
 
+#ifndef WITH_OCIO
 #define WITH_OCIO 0
+#endif
 #include "CoreMinimal.h"
 #include "Misc/FrameRate.h"
 #include "OpenColorIOConfiguration.h"
