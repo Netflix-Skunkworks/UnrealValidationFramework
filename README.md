@@ -6,7 +6,10 @@ UE5.1: Supported v1.1.0+: :white_check_mark: \
 UE5.2: Supported v1.2.0+: :white_check_mark: \
 UE5.3: Supported v1.3.0+: :white_check_mark: \
 UE5.4: Supported v1.4.0+: :white_check_mark: \
-UE5.5: Supported v1.5.0+: :white_check_mark:
+UE5.5: Supported v1.5.0+: :white_check_mark: \
+UE5.6: Supported v1.6.0+: :white_check_mark: \
+UE5.7: Supported v1.7.0+: :white_check_mark:
+
 
 ## 1. Intro
 <img src="/docs/images/UI.png" alt="Validation UI">
