@@ -1,7 +1,7 @@
 {
 	"FileVersion": 3,
 	"Version": 1,
-	"VersionName": "1.6.0",
+	"VersionName": "1.7.0",
 	"FriendlyName": "ValidationFramework",
 	"Description": "The Validation Framework provides a toolkit for implementing custom validations targeted towards specific workflows. This includes the detecting and automatic fixing of known issues for workflows around virtual production.Custom workflows & validation checks and fixes can be implemented as needed.Validations can be executed via UI during productions or on set as well as via command line as part of CI/CD build pipelines",
 	"Category": "Netflix",
@@ -13,7 +13,7 @@
 	"CanContainContent": true,
 	"IsBetaVersion": false,
 	"IsExperimentalVersion": false,
-	"EngineVersion":  "5.6.0",
+	"EngineVersion":  "5.7.0",
 	"Installed": false,
 	"Modules": [
 		{
